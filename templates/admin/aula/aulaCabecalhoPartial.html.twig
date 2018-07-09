@@ -1,0 +1,12 @@
+<div class="sonata-ba-collapsed-fields">
+    <div class="sonata-ba-field">
+        <label class="control-label">
+            Curso: {{ Model.getTurma().getCurso().getNome() }} - {{ Model.getTurma().getNome() }} - {{ Model.getTurma().getTurno() }} - {{ Model.getDisciplina().getNome() }}
+        </label>
+    </div>
+    <div class="sonata-ba-field">
+        <label class="control-label">
+            Professor:  {{ Model.getColaborador().getNome() }}
+        </label>
+    </div>
+</div>

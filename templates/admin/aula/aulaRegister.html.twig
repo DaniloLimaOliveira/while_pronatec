@@ -1,0 +1,147 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block sonata_admin_content %}
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
+
+    <div class="divOpacity" style="display:none"></div>
+    <div id="loading" class="loading">
+        <img alt="Processando" src="{{ asset('images/loading.gif') }}" /> Carregando...
+    </div>
+
+    <div class="alert alert-error alert-dismissable" style="display:none" id="div_mensagem">
+        <span id="mensagem"></span>
+    </div>
+    <div class="sonata-ba-form">
+        <form role="form" action="/admin/aula/save" method="POST">
+            <input type="hidden" id='id' name="id" value="{{ Model.getId() }}">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <h4 class="box-title">
+                                        Registro de Aula
+                                    </h4>
+                                </div>
+                                <div class="box-body">
+                                    {% include 'admin/aula/aulaCabecalhoPartial.html.twig'
+                                        with {  'Model': Model }
+                                    %}
+                                    <div class="form-group">
+                                        <label class="control-label required">
+                                            Data
+                                        </label>
+                                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                            <input id="data" type="date" name="data" required="required" class="form-control"
+                                                   {{ (Aula is defined) ? 'readonly' : '' }}
+                                                   value="{{ (Aula is defined) ? Aula.getData()|date('Y-m-d') : '' }}"
+                                                   autofocus>
+                                            <br/>
+                                            <button type="button" class="btn btn-success" name="btn_ok" id="btn_ok">
+                                                <i class="fa fa-check" aria-hidden="true"></i> OK
+                                            </button>
+                                            <button type="reset" class="btn btn-warning" name="btn_reset" id="btn_reset">
+                                                <i class="fa fa-refresh" aria-hidden="true"></i> Limpar
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="aulaRegisterPartial">
+                                        {% if Aula is defined %}
+                                            {% include 'admin/aula/aulaRegisterPartial.html.twig'
+                                                with {  'Model': Aula }
+                                            %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="botoes" class="sonata-ba-form-actions well well-small form-actions" {{ (Aula is defined) ? '' : 'style="visibility:hidden' }}">
+                <button type="submit" class="btn btn-success" name="btn_update_and_edit" value="1">  <i class="fa fa-save" aria-hidden="true"></i> Gravar e manter</button>
+                <button type="submit" class="btn btn-success" name="btn_update_and_list" value="2">  <i class="fa fa-save"></i> <i class="fa fa-list" aria-hidden="true"></i> Gravar e sair</button>
+                <button type="submit" class="btn btn-success" name="btn_create_and_create" value="3"><i class="fa fa-plus-circle" aria-hidden="true"></i> Gravar e adicionar outra aula</button>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+
+        function exibirMensagemSucesso(mensagem){
+            $("#div_mensagem").css("display", "block");
+            $("#mensagem").html(mensagem);
+            $("#div_mensagem").removeClass('alert-error');
+            $("#div_mensagem").addClass("alert-success");
+        }
+
+        function exibirMensagemErro(mensagem){
+            $("#div_mensagem").css("display", "block");
+            $("#mensagem").html(mensagem);
+            $("#div_mensagem").removeClass('alert-success');
+            $("#div_mensagem").addClass("alert-error");
+        }
+
+        function esconderMensagem(){
+            $("#div_mensagem").css("display", "none");
+        }
+
+        $(document).ajaxStart(function() {
+            $(".loading").css("display", "block");
+            $(".divOpacity").css("display", "block");
+        });
+
+        $(document).ajaxStop(function()
+        {
+            $(".loading").css("display", "none");
+            $(".divOpacity").css("display", "none");
+        });
+
+        $(function() {
+
+            var mensagem = '{{ (Mensagem is defined) ? Mensagem : '' }}';
+            if(mensagem != ''){
+                //$("#data").attr('readonly', 'readonly');
+                exibirMensagemSucesso(mensagem);
+            }
+
+            $("#btn_ok").click(function() {
+                if($('#data')[0].checkValidity())
+                {
+                    $.post(
+                        "/admin/aula/listFrequencia",
+                        {
+                            id:   $("#id").val(),
+                            data: $("#data").val()
+                        },
+                        function( response ) {
+                            if(response.status == 'success') {
+                                $("#aulaRegisterPartial").html(response.data);
+                                $("#data").attr('readonly', 'readonly');
+                                $("#botoes").css("visibility", "visible");
+                                esconderMensagem();
+                            }else {
+                                exibirMensagemErro(response.data);
+                            }
+                        }
+                    );
+                }else {
+                    exibirMensagemErro('Favor preencher o campo com uma data válida!');
+                }
+            });
+
+            $("#btn_reset").click(function() {
+                $("#aulaRegisterPartial").html('');
+                $("#data").removeAttr('readonly');
+                $("#data").focus();
+                $("#botoes").css("visibility","hidden");
+                $("#div_mensagem").css("display", "none");
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
