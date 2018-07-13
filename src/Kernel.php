@@ -58,4 +58,19 @@ class Kernel extends BaseKernel
         $routes->import($confDir.'/{routes}/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
     }
+
+    public function process(ContainerBuilder $container) {
+        // Fix Sonata User Bundle controller private service getter
+        foreach ($this->getSonataNeedPrivateServices() as $service) {
+            $container->getDefinition($service)->setPublic(true);
+        }
+    }
+
+    protected function getSonataNeedPrivateServices() {
+        return [
+            'fos_user.resetting.form.factory',
+            'fos_user.security.login_manager'
+        ];
+    }
+
 }
