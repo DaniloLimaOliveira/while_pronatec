@@ -434,6 +434,9 @@ abstract class BaseFieldDescription implements FieldDescriptionInterface
         if (!is_string($fieldName)) {
             return null;
         }
+        if (!is_object($object)) {
+            return null;
+        }
         $components = [get_class($object), $fieldName];
         $code = $this->getOption('code');
         if (is_string($code) && '' !== $code) {
@@ -453,12 +456,12 @@ abstract class BaseFieldDescription implements FieldDescriptionInterface
     private function callCachedGetter($object, $fieldName, array $parameters = [])
     {
         $getterKey = $this->getFieldGetterKey($object, $fieldName);
-        if (self::$fieldGetters[$getterKey]['method'] === 'getter') {
+        if ('getter' === self::$fieldGetters[$getterKey]['method']) {
             return call_user_func_array(
                 [$object, self::$fieldGetters[$getterKey]['getter']],
                 $parameters
             );
-        } elseif (self::$fieldGetters[$getterKey]['method'] === 'call') {
+        } elseif ('call' === self::$fieldGetters[$getterKey]['method']) {
             return call_user_func_array(
                 [$object, '__call'],
                 [$fieldName, $parameters]

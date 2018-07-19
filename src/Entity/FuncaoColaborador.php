@@ -11,6 +11,8 @@ namespace App\Entity;
 
 class FuncaoColaborador
 {
+    const PROFESSOR = 'P';
+
     public static function getFuncoes()
     {
         return array(

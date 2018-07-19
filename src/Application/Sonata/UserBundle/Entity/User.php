@@ -2,6 +2,8 @@
 
 namespace App\Application\Sonata\UserBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Colaborador;
 use Sonata\UserBundle\Entity\BaseUser as BaseUser;
 
 /**
@@ -27,5 +29,17 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    protected $colaborador;
+
+    public function getColaborador()
+    {
+        return $this->colaborador;
+    }
+
+    public function setColaborador($colaborador)
+    {
+        $this->colaborador = $colaborador;
     }
 }

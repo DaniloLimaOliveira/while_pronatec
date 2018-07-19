@@ -59,6 +59,7 @@ class Kernel extends BaseKernel
         $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
     }
 
+
     public function process(ContainerBuilder $container) {
         // Fix Sonata User Bundle controller private service getter
         foreach ($this->getSonataNeedPrivateServices() as $service) {

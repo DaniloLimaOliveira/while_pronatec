@@ -5,11 +5,10 @@ sonata_admin:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
     security:
-
         handler: sonata.admin.security.handler.role
-
         role_super_admin: ROLE_SUPER_ADMIN
         role_admin: ROLE_USER
+
 sonata_block:
     blocks:
         sonata.admin.block.admin_list:

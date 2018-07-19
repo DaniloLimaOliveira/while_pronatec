@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\ORM\Mapping\Table;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AulaRepository")
+ * @Table(uniqueConstraints={@UniqueConstraint(name="aula_idx", columns={"carga_horaria_id", "data"})})
  */
 class Aula
 {
@@ -49,7 +52,7 @@ class Aula
     protected $cargaHoraria;
 
     /**
-     * @ORM\OneToMany(targetEntity="Frequencia", mappedBy="aula", cascade="persist")
+     * @ORM\OneToMany(targetEntity="Frequencia", mappedBy="aula",  cascade={"persist", "remove"})
      */
     protected $frequencias;
 

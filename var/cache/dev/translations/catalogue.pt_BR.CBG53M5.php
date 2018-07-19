@@ -654,6 +654,12 @@ a Equipe.
     'Aluno Create' => 'Cadastro de Aluno',
     'Carga Horaria List' => 'Listagem de Carga Horárias',
     'Carga Horaria Create' => 'Cadastro de Carga Horária',
+    'Carga Horaria Turma Curso Nome' => 'Curso',
+    'Carga Horaria Turma Nome' => 'Turma',
+    'Carga Horaria Turma Turno' => 'Turno',
+    'Carga Horaria Disciplina Nome' => 'Disciplina',
+    'Carga Horaria Colaborador Nome' => 'Colaborador',
+    'Aula List' => 'Listagem de Aulas',
   ),
 ));
 
