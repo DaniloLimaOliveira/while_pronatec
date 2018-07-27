@@ -40,6 +40,12 @@ class Turma
     protected $curso;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Regiao")
+     * @ORM\JoinColumn()
+     */
+    protected $regiao;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -119,6 +125,22 @@ class Turma
         $this->curso = $curso;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRegiao()
+    {
+        return $this->regiao;
+    }
+
+    /**
+     * @param mixed $regiao
+     */
+    public function setRegiao($regiao): void
+    {
+        $this->regiao = $regiao;
+    }
+
     public function __construct()
     {
     }
@@ -127,5 +149,7 @@ class Turma
     {
        return (string)$this->nome;
     }
+
+
 
 }

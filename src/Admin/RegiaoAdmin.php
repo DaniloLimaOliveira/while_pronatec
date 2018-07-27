@@ -3,21 +3,18 @@
 namespace App\Admin;
 
 use App\Entity\CargaHoraria;
-use App\Entity\StatusTurma;
-use App\Entity\TurnoTurma;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
-use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class TurmaAdmin extends BaseAdmin
+class RegiaoAdmin extends BaseAdmin
 {
     protected $datagridValues = [
         '_page' => 1,
         '_sort_order' => 'ASC',
-        '_sort_by' => 'curso.nome',
+        '_sort_by' => 'nome',
     ];
 
     /**
@@ -40,20 +37,7 @@ class TurmaAdmin extends BaseAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('Geral')
-                ->add('regiao', ModelType::class, array('btn_add'=>false))
-                ->add('curso', ModelType::class, array('btn_add'=>false))
-                ->add('nome')
-                ->add('turno', ChoiceFieldMaskType::class, [
-                    'choices' => TurnoTurma::getTurnos(),
-                    'placeholder' => 'Selecione o turno',
-                    'required' => true
-                ])
-                ->add('status', ChoiceFieldMaskType::class, [
-                    'choices' => StatusTurma::getStatus(),
-                    'placeholder' => 'Selecione o status',
-                    'required' => true
-                ])
+            ->add('nome')
             ->end()
         ;
     }
@@ -66,11 +50,7 @@ class TurmaAdmin extends BaseAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('curso.nome')
-            ->add('nome')
-            ->add('turno')
-            ->add('status')
-            ->add('regiao')
+            ->addIdentifier('nome')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -82,8 +62,7 @@ class TurmaAdmin extends BaseAdmin
 
     public function toString($object)
     {
-        return $object->getCurso()->getNome() . self::SEPARADOR .
-                $object->getNome();
+        return $object->getNome();
     }
 
     /**
@@ -94,19 +73,12 @@ class TurmaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('regiao.nome')
-            ->add('status')
             ->add('nome')
         ;
     }
 
     public function preRemove($object)
     {
-        $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(CargaHoraria::class);
-
-        if($repository->exist(['turma' => $object]))
-        {
-            throw new \Exception("Não foi possível deletar, pois a turma possui carga horária!");
-        }
+        throw new \Exception("Operação não permitida!");
     }
 }

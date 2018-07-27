@@ -9,8 +9,14 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class CursoAdmin extends AbstractAdmin
+class CursoAdmin extends BaseAdmin
 {
+    protected $datagridValues = [
+        '_page' => 1,
+        '_sort_order' => 'ASC',
+        '_sort_by' => 'nome',
+    ];
+
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *

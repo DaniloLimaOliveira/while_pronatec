@@ -20,8 +20,14 @@ use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 
-class CargaHorariaAdmin extends AbstractAdmin
+class CargaHorariaAdmin extends BaseAdmin
 {
+    protected $datagridValues = [
+        '_page' => 1,
+        '_sort_order' => 'ASC',
+        '_sort_by' => 'turma.curso.nome',
+    ];
+
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
@@ -89,7 +95,10 @@ class CargaHorariaAdmin extends AbstractAdmin
 
     public function toString($object)
     {
-        return 'Carga Horária';
+        return $object->getTurma()->getCurso()->getNome() . self::SEPARADOR .
+                $object->getTurma()->getNome() . self::SEPARADOR .
+                $object->getDisciplina() . self::SEPARADOR .
+                $object->getColaborador()->getNome();
     }
 
     /**
@@ -100,6 +109,7 @@ class CargaHorariaAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('turma.regiao.nome')
             ->add('turma.curso.nome')
             ->add('turma.nome')
             ->add('turma.turno')

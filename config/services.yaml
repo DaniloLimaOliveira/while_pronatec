@@ -24,6 +24,15 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    admin_success_handler:
+        class: App\Security\AuthenticationHandler
+        arguments: [ '@service_container' ]
+
+    # Fix Sonata User Bundle controller private service getter
+    fos_user.util.token_generator:
+        alias: 'fos_user.util.token_generator.default'
+        public: true
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     pronatec.admin.aluno:
@@ -31,6 +40,12 @@ services:
           tags:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Alunos }
           arguments: [~, App\Entity\Aluno, ~]
+
+    pronatec.admin.aula:
+          class: App\Admin\AulaAdmin
+          tags:
+            - { name: sonata.admin, manager_type: orm, group: Administração, label: Aulas }
+          arguments: [~, App\Entity\Aula, ~]
 
     pronatec.admin.cagaHoraria:
               class: App\Admin\CargaHorariaAdmin
@@ -56,11 +71,23 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Disciplinas }
           arguments: [~, App\Entity\Disciplina, ~]
 
+    pronatec.admin.frequencia:
+          class: App\Admin\FrequenciaAdmin
+          tags:
+            - { name: sonata.admin, manager_type: orm, group: Administração, label: Frequências }
+          arguments: [~, App\Entity\Frequencia, ~]
+
     pronatec.admin.matricula:
           class: App\Admin\MatriculaAdmin
           tags:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Matrículas }
           arguments: [~, App\Entity\Matricula, ~]
+
+    pronatec.admin.regiao:
+          class: App\Admin\RegiaoAdmin
+          tags:
+            - { name: sonata.admin, manager_type: orm, group: Administração, label: Regiões}
+          arguments: [~, App\Entity\Regiao, ~]
 
     pronatec.admin.turma:
           class: App\Admin\TurmaAdmin
@@ -68,8 +95,8 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Turmas }
           arguments: [~, App\Entity\Turma, ~]
 
-    pronatec.admin.aula:
-        class: App\Admin\AulaAdmin
+    pronatec.admin.diarioClasse:
+        class: App\Admin\DiarioClasseAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: Professor, label: Diário de classe }
-        arguments: [null, null, App\Controller\AulaController]
+        arguments: [null, null, App\Controller\DiarioClasseController]

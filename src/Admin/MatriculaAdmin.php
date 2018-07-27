@@ -20,8 +20,14 @@ use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 
-class MatriculaAdmin extends AbstractAdmin
+class MatriculaAdmin extends BaseAdmin
 {
+    protected $datagridValues = [
+        '_page' => 1,
+        '_sort_order' => 'DESC',
+        '_sort_by' => 'aluno.nome',
+    ];
+
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
@@ -69,6 +75,7 @@ class MatriculaAdmin extends AbstractAdmin
             ->add('turma.curso.nome')
             ->add('turma.nome')
             ->add('status')
+            ->add('turma.regiao.nome')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -80,8 +87,7 @@ class MatriculaAdmin extends AbstractAdmin
 
     public function toString($object)
     {
-        //return $object->getNome();
-        return 'Matrícula';
+        return $object->getAluno()->getNome();
     }
 
     /**
@@ -92,10 +98,12 @@ class MatriculaAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('aluno.nome')
+
+            ->add('turma.regiao.nome')
             ->add('turma.curso.nome')
             ->add('turma.nome')
             ->add('status')
+            ->add('aluno.nome')
         ;
     }
 

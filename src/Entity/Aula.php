@@ -28,14 +28,18 @@ class Aula
     protected $conteudoMinistrado;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
      */
     protected $data;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=5, scale=2)
      * @Assert\NotBlank()
+     * @Assert\Range(   min = 1,
+     *                  max = 8,
+     *                  minMessage = "No mínimo 1 hora de aula",
+     *                  maxMessage = "No máximo 8 horas de aula")
      */
     protected $quantidadeHoras;
 
@@ -52,7 +56,7 @@ class Aula
     protected $cargaHoraria;
 
     /**
-     * @ORM\OneToMany(targetEntity="Frequencia", mappedBy="aula",  cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Frequencia", mappedBy="aula", cascade={"persist", "remove"})
      */
     protected $frequencias;
 
@@ -168,6 +172,10 @@ class Aula
         $this->frequencias = $frequencias;
     }
 
+    public function getDataFormatada(){
+        return $this->data->format('d/m/Y');
+    }
+
     public function __construct()
     {
     }
@@ -175,6 +183,15 @@ class Aula
     public function __toString()
     {
         return 'Aula';
+    }
+
+    public function asString()
+    {
+        return $this->getCargaHoraria()->getTurma()->getCurso()->getNome() . ' - ' .
+                $this->getCargaHoraria()->getTurma()->getNome() . ' - ' .
+                $this->getCargaHoraria()->getDisciplina() . ' - ' .
+                $this->getCargaHoraria()->getColaborador()->getNome() . ' - ' .
+                $this->getDataFormatada();
     }
 
 }

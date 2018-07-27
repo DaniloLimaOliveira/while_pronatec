@@ -12,9 +12,13 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class AlunoAdmin extends AbstractAdmin
+class AlunoAdmin extends BaseAdmin
 {
-
+    protected $datagridValues = [
+        '_page' => 1,
+        '_sort_order' => 'ASC',
+        '_sort_by' => 'nome',
+    ];
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper

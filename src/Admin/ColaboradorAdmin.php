@@ -17,8 +17,14 @@ use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 
-class ColaboradorAdmin extends AbstractAdmin
+class ColaboradorAdmin extends BaseAdmin
 {
+    protected $datagridValues = [
+        '_page' => 1,
+        '_sort_order' => 'ASC',
+        '_sort_by' => 'nome',
+    ];
+
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
@@ -45,6 +51,7 @@ class ColaboradorAdmin extends AbstractAdmin
                 'placeholder' => 'Selecione a função',
                 'required' => true
             ])
+            ->add('regiao', ModelType::class, array('btn_add'=>false))
             ->end()
             ->with('Dados Pessoais')
                 ->add('nome')
@@ -123,6 +130,7 @@ class ColaboradorAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('regiao.nome')
             ->add('cpf')
             ->add('nome')
         ;

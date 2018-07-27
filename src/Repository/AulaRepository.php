@@ -16,5 +16,4 @@ class AulaRepository extends EntityRepository
     {
         return $this->findOneBy(['cargaHoraria' => $cargaHoraria]) != null ? true : false;
     }
-
 }

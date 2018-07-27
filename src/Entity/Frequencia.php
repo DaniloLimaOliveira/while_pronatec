@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\ORM\Mapping\Table;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FrequenciaRepository")
+ * @Table(uniqueConstraints={@UniqueConstraint(name="frequencia_idx", columns={"aula_id", "matricula_id"})})
  */
 class Frequencia
 {

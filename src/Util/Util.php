@@ -14,7 +14,10 @@ class Util
 
     public static function stringToDate($stringDate)
     {
-        return \DateTime::createFromFormat('Y-m-d', $stringDate);
+        $data = \DateTime::createFromFormat('Y-m-d', $stringDate);
+        $data->setTime(0,0,0);
+
+        return $data;
     }
 
 }

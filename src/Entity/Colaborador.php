@@ -17,6 +17,12 @@ class Colaborador extends Pessoa
     protected $funcao;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Regiao")
+     * @ORM\JoinColumn()
+     */
+    protected $regiao;
+
+    /**
      * @return mixed
      */
     public function getFuncao()
@@ -30,6 +36,22 @@ class Colaborador extends Pessoa
     public function setFuncao($funcao): void
     {
         $this->funcao = $funcao;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegiao()
+    {
+        return $this->regiao;
+    }
+
+    /**
+     * @param mixed $regiao
+     */
+    public function setRegiao($regiao): void
+    {
+        $this->regiao = $regiao;
     }
 
     public function __construct()

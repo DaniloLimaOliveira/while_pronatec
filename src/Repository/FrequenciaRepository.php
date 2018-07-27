@@ -17,4 +17,8 @@ class FrequenciaRepository extends EntityRepository
         return $this->findOneBy(['matricula' => $matricula]) != null ? true : false;
     }
 
+    public function existFrequencia($frequencia)
+    {
+        return $this->findOneBy(['aula' => $frequencia->getAula(), 'matricula' => $frequencia->getMatricula()]) != null ? true : false;
+    }
 }

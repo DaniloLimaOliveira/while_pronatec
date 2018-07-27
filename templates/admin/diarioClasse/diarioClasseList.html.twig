@@ -1,0 +1,70 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block sonata_admin_content %}
+    <div class="box box-primary" style="margin-bottom: 100px;">
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-bordered table-striped sonata-ba-list">
+                <thead>
+                    <tr class="sonata-ba-list-field-header">
+                        <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc">
+                            Curso
+                        </th>
+                        <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc">
+                            Turma
+                        </th>
+                        <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc">
+                            Turno
+                        </th>
+                        <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc">
+                            Disciplina
+                        </th>
+                        <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc">
+                            Professor
+                        </th>
+                        <th class="sonata-ba-list-field-header-actions">
+                            Ações
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% if Model is not empty %}
+                        {% for cargaHoraria in Model %}
+                            <tr>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text" objectId="{{cargaHoraria.getId()}}">
+                                    {{ cargaHoraria.getTurma().getCurso().getNome() }}
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                    {{ cargaHoraria.getTurma().getNome() }}
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                    {{ cargaHoraria.getTurma().getTurno() }}
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                    {{ cargaHoraria.getDisciplina().getNome() }}
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                                    {{ cargaHoraria.getColaborador().getNome() }}
+                                </td>
+
+                                <td class="sonata-ba-list-field sonata-ba-list-field-actions">
+                                    <div class="btn-group">
+                                        <a href="/admin/diarioClasse/{{cargaHoraria.getId()}}/register" class="btn btn-sm btn-default edit_link" title="Registrar Aula">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            Registrar
+                                        </a>
+                                        <a href="/admin/diarioClasse/{{cargaHoraria.getId()}}/show" class="btn btn-sm btn-default view_link" title="Consultar Aulas">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                            Consultar
+                                        </a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

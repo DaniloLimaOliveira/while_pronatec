@@ -13,3 +13,8 @@ sonata_block:
     blocks:
         sonata.admin.block.admin_list:
             contexts: [admin]
+
+sonata_exporter:
+    writers:
+        csv:
+            delimiter: ";"
