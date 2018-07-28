@@ -12,7 +12,7 @@ class DiarioClasseAdmin extends BaseAdmin
 
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->clearExcept(['list', 'show', 'delete']);
+        $collection->clearExcept(['list', 'show', 'delete', 'create']);
         $collection->add('register', $this->getRouterIdParameter().'/register');
         $collection->add('listFrequencia', 'listFrequencia');
         $collection->add('save', 'save');

@@ -28,7 +28,7 @@ class AuthenticationHandler implements  AuthenticationSuccessHandlerInterface {
         if( $usuario && $usuario->getColaborador() &&
             $usuario->getColaborador()->getFuncao() == FuncaoColaborador::PROFESSOR)
         {
-            $url = $this->container->get('router')->generate('diarioClasse_list');
+            $url = $this->container->get('router')->generate('diarioClasse_create');
 
         }
 

@@ -12,30 +12,52 @@ use App\Entity\StatusTurma;
 use App\Entity\TipoAula;
 use App\Entity\TipoFrequencia;
 use App\Util\Util;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 
 class DiarioClasseController extends BaseController
 {
+    /**
+     * GET Repositório
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
     public function repositoryCargaHoraria()
     {
         return $this->getDoctrine()->getRepository(CargaHoraria::class);
     }
 
+    /**
+     * GET Repositório
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
     public function repositoryFrequencia()
     {
         return $this->getDoctrine()->getRepository(Frequencia::class);
     }
 
+    /**
+     * GET Repositório
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
     public function repositoryMatricula()
     {
         return $this->getDoctrine()->getRepository(Matricula::class);
     }
 
+    /**
+     * GET Repositório
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
     public function repositoryAula()
     {
         return $this->getDoctrine()->getRepository(Aula::class);
     }
 
+    /**
+     * Consulta a Carga Horaria de acordo com o ID
+     * @param $id
+     * @return CargaHoraria $cargaHoraria
+     */
     public function consultarCargaHoraria($id)
     {
         $cargaHoraria = $this->repositoryCargaHoraria()->find($id);
@@ -47,6 +69,12 @@ class DiarioClasseController extends BaseController
         return $cargaHoraria;
     }
 
+    /**
+     * Cria a lista de frequencias de acordo as informações selecionadas na tela
+     * @param Request $request
+     * @param Aula $aula
+     * @return Frequencias
+     */
     public function carregarFrequencias(Request $request, Aula $aula)
     {
         $i = 1;
@@ -83,14 +111,36 @@ class DiarioClasseController extends BaseController
         return $frequencias;
     }
 
+    /**
+     * Ordena as frequencias pelo nome do aluno
+     * @param $frequencias
+     * @return ArrayCollection
+     */
+    public function ordenarFrequencia($frequencias)
+    {
+        $iterator = $frequencias->getIterator();
+        $iterator->uasort(function ($a, $b) {
+            return ($a->getMatricula()->getAluno()->getNome() < $b->getMatricula()->getAluno()->getNome()) ? -1 : 1;
+        });
+        $frequencias = new ArrayCollection(iterator_to_array($iterator));
 
+        return $frequencias;
+    }
+
+    /**
+     * Consulta os alunos matriculados na turma, verifica se existe frequência cadastrada na aula,
+     * caso não exista cria a frequencia para o aluno.
+     * @param CargaHoraria $cargaHoraria
+     * @param Aula $aula
+     * @return Frequencias
+     */
     public function getFrequenciaMatricula($cargaHoraria, $aula = null)
     {
         $matriculas = $this->repositoryMatricula()->findBy(['turma' => $cargaHoraria->getTurma(),
                                                             'status' => StatusMatricula::ATIVA]
         );
 
-        $frequencias = array();
+        $frequencias = new \ArrayObject();
 
         foreach ($matriculas as $matricula)
         {
@@ -108,12 +158,17 @@ class DiarioClasseController extends BaseController
                 $frequencia->setTipoFrequencia(TipoFrequencia::PRESENTE);
             }
 
-            $frequencias[] =  $frequencia;
+            $frequencias->append($frequencia);
         }
 
-        return $frequencias;
+        return $this->ordenarFrequencia($frequencias);
     }
 
+    /**
+     * Consulta a aula e suas frequências
+     * @param $idAula
+     * @return Aula $aula
+     */
     public function getAula($idAula)
     {
         $aula = $this->repositoryAula()->find($idAula);
@@ -127,6 +182,12 @@ class DiarioClasseController extends BaseController
         return $aula;
     }
 
+    /**
+     * Seleciona ou cria a aula, caso não exista
+     * @param $idCargaHoraria
+     * @param $data
+     * @return Aula|null|object
+     */
     public function getOrCreateAula($idCargaHoraria, $data)
     {
         $aula = null;
@@ -150,7 +211,11 @@ class DiarioClasseController extends BaseController
         return $aula;
     }
 
-    public function listAction()
+    /**
+     * Tela de seleção da carga horária para o cadastro de aula
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function createAction()
     {
         $filtro = array('status' => StatusTurma::EM_ANDAMENTO);
         $usuario = $this->getUser();
@@ -163,9 +228,32 @@ class DiarioClasseController extends BaseController
 
         $cargaHorarias = $this->repositoryCargaHoraria()->findBy($filtro);
 
-        return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseList.html.twig', ['Model' => $cargaHorarias]);
+        return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseCreate.html.twig', ['Model' => $cargaHorarias]);
     }
 
+    /**
+     * Lista as aulas ministradas pelo professor
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listAction()
+    {
+        $aulas = null;
+        $usuario = $this->getUser();
+
+        if( $usuario && $usuario->getColaborador() &&
+            $usuario->getColaborador()->getFuncao() == FuncaoColaborador::PROFESSOR)
+        {
+            $aulas = $this->repositoryAula()->selectAulas($usuario->getColaborador());
+        }
+
+        return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseList.html.twig', ['Model' => $aulas]);
+    }
+
+    /**
+     * Carrega a tela de cadastro de aula (insert e edit)
+     * @param Aula or CargaHoraria $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function registerAction($id = null)
     {
         $request = $this->getRequest();
@@ -191,15 +279,16 @@ class DiarioClasseController extends BaseController
         }
     }
 
+    /**
+     * Registra a aula
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function saveAction(){
         $response = null;
         $request = $this->getRequest();
-
         $idCargaHoraria = $request->get('id');
         $data = Util::stringToDate($request->get('data'));
-
         $cargaHoraria = $this->consultarCargaHoraria($idCargaHoraria);
-
         $aula = $this->repositoryAula()->findOneBy(['cargaHoraria' => $cargaHoraria, 'data' => $data]);
 
         if($aula == null)
@@ -230,25 +319,29 @@ class DiarioClasseController extends BaseController
             $aula = $this->getOrCreateAula($idCargaHoraria, $data);
 
             $response =  $this->renderWithExtraParams('admin/diarioClasse/diarioClasseRegister.html.twig', [
-                                                            'Model' => $cargaHoraria,
-                                                            'TiposAula' => TipoAula::getTiposAula(),
-                                                            'Aula' => $aula,
-                                                            'Mensagem' => $mensagem
+                'Model' => $cargaHoraria,
+                'TiposAula' => TipoAula::getTiposAula(),
+                'Aula' => $aula,
+                'Mensagem' => $mensagem
             ]);
         }
         elseif($request->get('btn_update_and_list') != null)
         {
-            $response = $this->redirectToRoute('diarioClasse_list');
+            $response = $this->redirectToRoute('diarioClasse_create');
         }
         else//btn_create_and_create
         {
             $response = $this->renderWithExtraParams('admin/diarioClasse/diarioClasseRegister.html.twig',
-                                                    ['Model' => $cargaHoraria, 'Mensagem' => $mensagem]);
+                ['Model' => $cargaHoraria, 'Mensagem' => $mensagem]);
         }
 
         return $response;
     }
 
+    /**
+     * Carrega as informações da aula, de acordo com id da carga horária e a data selecionada
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function listFrequenciaAction()
     {
         try{
@@ -258,10 +351,10 @@ class DiarioClasseController extends BaseController
             $data = Util::stringToDate($request->get('data'));
 
             $view = $this->renderView('admin/diarioClasse/diarioClasseRegisterPartial.html.twig',
-                                        [
-                                            'Model' => $this->getOrCreateAula($idCargaHoraria, $data),
-                                            'TiposAula' => TipoAula::getTiposAula()
-                                        ]
+                [
+                    'Model' => $this->getOrCreateAula($idCargaHoraria, $data),
+                    'TiposAula' => TipoAula::getTiposAula()
+                ]
             );
 
             return $this->jsonResponseSucess($view);
@@ -271,6 +364,11 @@ class DiarioClasseController extends BaseController
         }
     }
 
+    /**
+     * Consulta as aulas realizadas, de acordo com o id da carga horária
+     * @param CargaHoraria $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function showAction($id = null)
     {
         $cargaHoraria = $this->consultarCargaHoraria($id);
@@ -280,10 +378,15 @@ class DiarioClasseController extends BaseController
         return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseShow.html.twig', ['Model' => $aulas, 'CargaHoraria' => $cargaHoraria]);
     }
 
+
+    /**
+     * Exibe a tela de exclusão e também efetua a exclusão da aula
+     * @param Aula $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function deleteAction($id)
     {
         $aula = $this->getAula($id);
-
         $request = $this->getRequest();
 
         if($request->get('_method') == 'DELETE')
