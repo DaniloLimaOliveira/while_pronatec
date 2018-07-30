@@ -10,6 +10,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Aluno extends Pessoa
 {
+    public function __toString()
+    {
+        return (string)$this->nome;
+    }
+
     public function __construct()
     {
         $this->banco = new Banco();

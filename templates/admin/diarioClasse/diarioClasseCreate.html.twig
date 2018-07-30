@@ -18,6 +18,11 @@
     </section>
 
     <section class="content">
+        {% if Mensagem is not empty %}
+            <div class="alert alert-success alert-dismissable" style="" id="div_mensagem">
+                <span id="mensagem">{{ Mensagem }}</span>
+            </div>
+        {% endif %}
         <div class="box box-primary" style="margin-bottom: 100px;">
             <div class="box-body table-responsive no-padding">
                 <table class="table table-bordered table-striped sonata-ba-list">

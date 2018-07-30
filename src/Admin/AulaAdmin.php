@@ -4,6 +4,7 @@ namespace App\Admin;
 
 use App\Entity\Aula;
 use App\Entity\TipoAula;
+use App\Entity\TurnoTurma;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -88,7 +89,7 @@ class AulaAdmin extends BaseAdmin
             ->add('cargaHoraria.colaborador.nome')
             ->add('data','date',array('format' => 'd/m/Y'))
             ->add('quantidadeHoras')
-            ->add('tipoAula')
+            ->add('getTipoAulaDescricao', null,['label' => 'Tipo'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -111,12 +112,13 @@ class AulaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('cargaHoraria.turma.regiao.nome')
-            ->add('cargaHoraria.turma.curso.nome')
+            ->add('cargaHoraria.turma.regiao', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('cargaHoraria.turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('cargaHoraria.disciplina', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('cargaHoraria.turma.nome')
-            ->add('cargaHoraria.turma.turno')
-            ->add('cargaHoraria.disciplina.nome')
-            ->add('cargaHoraria.colaborador.nome')
+            ->add('tipoAula','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => TipoAula::getTiposAula()])
+            ->add('cargaHoraria.turma.turno','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => TurnoTurma::getTurnos()])
+            ->add('cargaHoraria.colaborador', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('data',
                 DateRangeFilter::class,
                 [
@@ -132,7 +134,6 @@ class AulaAdmin extends BaseAdmin
                         ]
                 ])
             ->add('quantidadeHoras')
-            ->add('tipoAula')
         ;
     }
 

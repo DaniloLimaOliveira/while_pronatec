@@ -91,6 +91,11 @@ class Matricula
         return $this->status;
     }
 
+    public function getStatusDescricao()
+    {
+        return array_search($this->status, StatusMatricula::getStatus());
+    }
+
     /**
      * @param mixed $status
      */

@@ -85,6 +85,11 @@ class Turma
         return $this->turno;
     }
 
+    public function getTurnoDescricao()
+    {
+        return array_search($this->turno, TurnoTurma::getTurnos());
+    }
+
     /**
      * @param mixed $turno
      */
@@ -99,6 +104,11 @@ class Turma
     public function getStatus()
     {
         return $this->status;
+    }
+
+    public function getStatusDescricao()
+    {
+        return array_search($this->status, StatusTurma::getStatus());
     }
 
     /**

@@ -83,7 +83,7 @@ class CargaHorariaAdmin extends BaseAdmin
             ->add('disciplina.nome')
             ->add('colaborador.nome')
             ->add('cargaHoraria')
-            ->add('status')
+            ->add('getStatusDescricao', null,['label' => 'Status'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -109,14 +109,14 @@ class CargaHorariaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('turma.regiao.nome')
-            ->add('turma.curso.nome')
+            ->add('turma.regiao', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('disciplina', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('colaborador', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('status','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => StatusTurma::getStatus()])
+            ->add('turma.turno','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => TurnoTurma::getTurnos()])
             ->add('turma.nome')
-            ->add('turma.turno')
-            ->add('disciplina.nome')
-            ->add('colaborador.nome')
             ->add('cargaHoraria')
-            ->add('status')
         ;
     }
 

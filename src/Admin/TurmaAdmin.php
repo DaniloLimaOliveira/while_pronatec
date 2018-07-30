@@ -68,8 +68,8 @@ class TurmaAdmin extends BaseAdmin
         $listMapper
             ->addIdentifier('curso.nome')
             ->add('nome')
-            ->add('turno')
-            ->add('status')
+            ->add('getTurnoDescricao', null,['label' => 'Turno'])
+            ->add('getStatusDescricao', null,['label' => 'Status'])
             ->add('regiao')
             ->add('_action', 'actions', array(
                 'actions' => array(
@@ -94,7 +94,7 @@ class TurmaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('regiao.nome')
+            ->add('regiao', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('status')
             ->add('nome')
         ;

@@ -132,6 +132,11 @@ class Aula
         return $this->tipoAula;
     }
 
+    public function getTipoAulaDescricao()
+    {
+        return array_search($this->tipoAula, TipoAula::getTiposAula());
+    }
+
     /**
      * @param mixed $tipoAula
      */

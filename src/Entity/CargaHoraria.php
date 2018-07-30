@@ -142,6 +142,11 @@ class CargaHoraria
         $this->status = $status;
     }
 
+    public function getStatusDescricao()
+    {
+        return array_search($this->status, StatusTurma::getStatus());
+    }
+
     public function __construct()
     {
     }

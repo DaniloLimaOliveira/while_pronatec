@@ -19,6 +19,7 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
+use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 
 class MatriculaAdmin extends BaseAdmin
 {
@@ -74,7 +75,7 @@ class MatriculaAdmin extends BaseAdmin
             ->addIdentifier('aluno.nome')
             ->add('turma.curso.nome')
             ->add('turma.nome')
-            ->add('status')
+            ->add('getStatusDescricao', null,['label' => 'Status'])
             ->add('turma.regiao.nome')
             ->add('_action', 'actions', array(
                 'actions' => array(
@@ -98,12 +99,12 @@ class MatriculaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-
-            ->add('turma.regiao.nome')
-            ->add('turma.curso.nome')
+            ->add('turma.regiao', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('aluno', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('status','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => StatusMatricula::getStatus()])
             ->add('turma.nome')
-            ->add('status')
-            ->add('aluno.nome')
+
         ;
     }
 

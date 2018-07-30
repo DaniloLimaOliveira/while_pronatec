@@ -217,6 +217,8 @@ class DiarioClasseController extends BaseController
      */
     public function createAction()
     {
+        $mensagem = $this->getRequest()->get('mensagem');
+
         $filtro = array('status' => StatusTurma::EM_ANDAMENTO);
         $usuario = $this->getUser();
 
@@ -228,7 +230,7 @@ class DiarioClasseController extends BaseController
 
         $cargaHorarias = $this->repositoryCargaHoraria()->findBy($filtro);
 
-        return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseCreate.html.twig', ['Model' => $cargaHorarias]);
+        return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseCreate.html.twig', ['Model' => $cargaHorarias, 'Mensagem' => $mensagem]);
     }
 
     /**
@@ -327,7 +329,7 @@ class DiarioClasseController extends BaseController
         }
         elseif($request->get('btn_update_and_list') != null)
         {
-            $response = $this->redirectToRoute('diarioClasse_create');
+            $response = $this->redirectToRoute('diarioClasse_create',['mensagem' => $mensagem]);
         }
         else//btn_create_and_create
         {

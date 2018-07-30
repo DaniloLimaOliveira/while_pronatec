@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Entity\Frequencia;
+use App\Entity\TipoAula;
 use App\Entity\TipoFrequencia;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -103,12 +104,16 @@ class FrequenciaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('aula.cargaHoraria.turma.regiao.nome')
-            ->add('aula.cargaHoraria.turma.curso.nome')
+
+            ->add('aula.cargaHoraria.turma.regiao', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('aula.cargaHoraria.turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('aula.cargaHoraria.disciplina', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('aula.cargaHoraria.colaborador', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('matricula.aluno', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('aula.tipoAula','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => TipoAula::getTiposAula()])
             ->add('aula.cargaHoraria.turma.nome')
             ->add('aula.cargaHoraria.turma.turno')
-            ->add('aula.cargaHoraria.disciplina.nome')
-            ->add('matricula.aluno.nome')
+            ->add('aula.quantidadeHoras')
             ->add('aula.data',
                 DateRangeFilter::class,
                 [
@@ -123,7 +128,6 @@ class FrequenciaAdmin extends BaseAdmin
                             'attr' => ['data-date-format' => 'DD/MM/YYYY']
                         ]
                 ])
-            ->add('aula.quantidadeHoras')
         ;
     }
 
