@@ -37,6 +37,7 @@ class FrequenciaAdmin extends BaseAdmin
             ->add('matricula.aluno.nome')
             ->add('aula.data')
             ->add('aula.quantidadeHoras')
+            ->add('tipoFrequencia')
         ;
     }
 
@@ -77,6 +78,7 @@ class FrequenciaAdmin extends BaseAdmin
             ->add('matricula.aluno.nome')
             ->add('aula.data','date',array('format' => 'd/m/Y'))
             ->add('aula.quantidadeHoras')
+            ->add('tipoFrequencia', null, ['label' => 'Tipo'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -104,7 +106,6 @@ class FrequenciaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-
             ->add('aula.cargaHoraria.turma.regiao', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('aula.cargaHoraria.turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('aula.cargaHoraria.disciplina', null, [], null, ['expanded' => false, 'multiple' => true])
@@ -128,6 +129,7 @@ class FrequenciaAdmin extends BaseAdmin
                             'attr' => ['data-date-format' => 'DD/MM/YYYY']
                         ]
                 ])
+            ->add('tipoFrequencia','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => TipoFrequencia::getTipoFrequencia()])
         ;
     }
 
@@ -140,6 +142,7 @@ class FrequenciaAdmin extends BaseAdmin
                 'matricula.aluno.nome',
                 'Data' => 'aula.getDataFormatada',
                 'Horas'=>'aula.quantidadeHoras',
+                'Tipo' => 'tipoFrequencia',
         ];
     }
 
