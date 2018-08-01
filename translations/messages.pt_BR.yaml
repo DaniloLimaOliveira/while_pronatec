@@ -8,7 +8,7 @@ Banco  Operacao: Operação
 Colaborador List: Listagem de Colaboradores
 Colaborador Create: Cadastro de Colaborador
 Cpf: CPF
-Carga Horaria: Carga Horária
+Carga Horaria: Horas
 Curso Nome: Nome do Curso
 Curso List: Listagem de Curso
 Curso Create: Cadastro de Curso
@@ -32,12 +32,12 @@ Orgao Expedidor: Orgão Expedidor
 Populacao Campo: População Campo
 Telefone Recado: Telefone para Contato
 Turma Curso Nome: Curso
-Turma Nome: Nome da Turma
+Turma Nome: Turma
 Turma Turno: Turno
 Turma List: Listagem de Turmas
 Turma Create: Cadastro de Turma
-Disciplina Nome: Nome da Disciplina
-Colaborador Nome: Nome do Coloborador
+Disciplina Nome: Disciplina
+Colaborador Nome: Coloborador
 Raca: Raça
 Rg: RG
 Aluno List: Listagem de Alunos
