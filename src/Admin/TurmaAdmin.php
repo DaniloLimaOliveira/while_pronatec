@@ -14,6 +14,10 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class TurmaAdmin extends BaseAdmin
 {
+    /**
+     * Configuração do datagrid
+     * @var array
+     */
     protected $datagridValues = [
         '_page' => 1,
         '_sort_order' => 'ASC',
@@ -22,7 +26,6 @@ class TurmaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
-     *
      * @return void
      */
     protected function configureShowField(ShowMapper $showMapper)
@@ -34,7 +37,6 @@ class TurmaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     *
      * @return void
      */
     protected function configureFormFields(FormMapper $formMapper)
@@ -60,7 +62,6 @@ class TurmaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
-     *
      * @return void
      */
     protected function configureListFields(ListMapper $listMapper)
@@ -80,6 +81,11 @@ class TurmaAdmin extends BaseAdmin
         ;
     }
 
+    /**
+     * To string
+     * @param $object
+     * @return string
+     */
     public function toString($object)
     {
         return $object->getCurso()->getNome() . self::SEPARADOR .
@@ -88,7 +94,6 @@ class TurmaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\DatagridMapper $datagridMapper
-     *
      * @return void
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -100,6 +105,11 @@ class TurmaAdmin extends BaseAdmin
         ;
     }
 
+    /**
+     * Impede a exclusão, caso a turma esteja em alguma carga horária
+     * @param object $object
+     * @throws \Exception
+     */
     public function preRemove($object)
     {
         $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(CargaHoraria::class);

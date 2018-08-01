@@ -2,8 +2,10 @@
 
 namespace App\Admin;
 
+use App\Application\Sonata\UserBundle\Entity\User;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\CoreBundle\Validator\ErrorElement;
 
 class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
 {
@@ -26,5 +28,17 @@ class UserAdmin extends \Sonata\UserBundle\Admin\Model\UserAdmin
             ->end()
         ;
 
+    }
+
+    public function prePersist($object)
+    {
+        $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(User::class);
+
+        $user = $repository->findOneBy([ 'colaborador' => $object->getColaborador()]);
+
+        if($user != null && $user->getId() != $object->getId())
+        {
+            throw new \LogicException('Não foi possível realizar o cadastro, pois o colaborador já possui usuário cadastrado!');
+        }
     }
 }

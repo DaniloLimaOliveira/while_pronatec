@@ -5,6 +5,7 @@ namespace App\Admin;
 use App\Entity\Aula;
 use App\Entity\TipoAula;
 use App\Entity\TurnoTurma;
+use App\Repository\AulaRepository;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -13,15 +14,24 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\CoreBundle\Form\Type\DateRangeType;
+use Sonata\CoreBundle\Validator\ErrorElement;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 
 class AulaAdmin extends BaseAdmin
 {
+    /**
+     * Get AulaRepository
+     * @return AulaRepository
+     */
     public function getRepository()
     {
         return $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Aula::class);
     }
 
+    /**
+     * Configuração do datagrid
+     * @var array
+     */
     protected $datagridValues = [
         '_page' => 1,
         '_sort_order' => 'DESC',
@@ -30,7 +40,6 @@ class AulaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
-     *
      * @return void
      */
     protected function configureShowField(ShowMapper $showMapper)
@@ -49,7 +58,6 @@ class AulaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     *
      * @return void
      */
     protected function configureFormFields(FormMapper $formMapper)
@@ -76,7 +84,6 @@ class AulaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
-     *
      * @return void
      */
     protected function configureListFields(ListMapper $listMapper)
@@ -99,6 +106,11 @@ class AulaAdmin extends BaseAdmin
         ;
     }
 
+    /**
+     * To string
+     * @param $object
+     * @return string
+     */
     public function toString($object)
     {
         return $object->asString();
@@ -106,7 +118,6 @@ class AulaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\DatagridMapper $datagridMapper
-     *
      * @return void
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -150,24 +161,19 @@ class AulaAdmin extends BaseAdmin
         ];
     }
 
-    public function prePersist($object)
+    /**
+     * Verifica se já existe uma aula cadastrada na data informada
+     * @param ErrorElement $errorElement
+     * @param $object
+     */
+    public function validate(ErrorElement $errorElement, $object)
     {
         $aula = $this->getRepository()->findOneBy([ 'cargaHoraria' => $object->getCargaHoraria(),
-                                                    'data' => $object->getData()]);
-        if($aula != null)
-        {
-            throw new \LogicException("Não foi possível realizar o cadastro, pois já existe uma aula cadastrada nesta data!");
-        }
-    }
-
-    public function preUpdate($object)
-    {
-        $aula = $this->getRepository()->findOneBy([ 'cargaHoraria' => $object->getCargaHoraria(),
-                                                    'data' => $object->getData()]);
+            'data' => $object->getData()]);
 
         if($aula != null && $aula->getId() != $object->getId())
         {
-            throw new \LogicException("Não foi possível realizar o cadastro, pois já existe uma aula cadastrada nesta data!");
+            $errorElement->with('data')->addViolation('Já existe uma aula cadastrada nesta data!');
         }
     }
 }

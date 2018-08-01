@@ -12,10 +12,15 @@ use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DateRangeType;
+use Sonata\CoreBundle\Validator\ErrorElement;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 
 class FrequenciaAdmin extends BaseAdmin
 {
+    /**
+     * Configuração do datagrid
+     * @var array
+     */
     protected $datagridValues = [
         '_page' => 1,
         '_sort_order' => 'DESC',
@@ -24,7 +29,6 @@ class FrequenciaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
-     *
      * @return void
      */
     protected function configureShowField(ShowMapper $showMapper)
@@ -43,13 +47,10 @@ class FrequenciaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     *
      * @return void
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $admin = $this;
-
         $formMapper
             ->with('Geral')
                 ->add('aula', ModelListType::class, array('btn_add'=>true, 'btn_edit'=>false, 'btn_delete'=>false))
@@ -65,7 +66,6 @@ class FrequenciaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
-     *
      * @return void
      */
     protected function configureListFields(ListMapper $listMapper)
@@ -88,6 +88,11 @@ class FrequenciaAdmin extends BaseAdmin
         ;
     }
 
+    /**
+     * To string
+     * @param $object
+     * @return string
+     */
     public function toString($object)
     {
         return $object->getAula()->getCargaHoraria()->getTurma()->getCurso()->getNome() . self::SEPARADOR .
@@ -133,6 +138,10 @@ class FrequenciaAdmin extends BaseAdmin
         ;
     }
 
+    /**
+     * Definição das colunas exportadas para o .csv
+     * @return array
+     */
     public function getExportFields()
     {
         return ['aula.cargaHoraria.turma.curso.nome',
@@ -146,28 +155,25 @@ class FrequenciaAdmin extends BaseAdmin
         ];
     }
 
-    public function prePersist($object)
+    /**
+     * Verifica se já existe uma frequência cadastrada na aula informada
+     * Verifica se o aluno pertence a turma
+     * @param ErrorElement $errorElement
+     * @param $object
+     */
+    public function validate(ErrorElement $errorElement, $object)
     {
         $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Frequencia::class);
+        $frequencia = $repository->findOneBy(['aula' => $object->getAula(), 'matricula' => $object->getMatricula()]);
 
-        if($repository->existFrequencia($object))
+        if($frequencia != null && $frequencia->getId() != $object->getId())
         {
-            throw new \LogicException('Não é possível cadastrar a frenquência, pois já existe uma frequência cadastrada para o aluno na aula informada!');
+            $errorElement->with('aula')->addViolation('Já existe uma frequência cadastrada para o aluno na aula informada!');
         }
 
         if($object->getMatricula()->getTurma() != $object->getAula()->getCargaHoraria()->getTurma())
         {
-            throw new \LogicException('Não é possível cadastrar a frenquência, pois o aluno não pertence a turma da aula informada!');
-        }
-    }
-
-    public function preUpdate($object)
-    {
-        //TODO: Verificar se já existe uma frequência cadastradas com os mesmos dados
-
-        if($object->getMatricula()->getTurma() != $object->getAula()->getCargaHoraria()->getTurma())
-        {
-            throw new \LogicException('Não é possível cadastrar a frenquência, pois o aluno não pertence a turma da aula informada!');
+            $errorElement->with('matricula')->addViolation('O aluno não pertence a turma da aula informada!');
         }
     }
 }

@@ -3,25 +3,21 @@
 namespace App\Admin;
 
 use App\Entity\Aula;
-use App\Entity\Banco;
-use App\Entity\Estado;
-use App\Entity\FuncaoColaborador;
-use App\Entity\Sexo;
-use App\Entity\StatusMatricula;
 use App\Entity\StatusTurma;
 use App\Entity\TurnoTurma;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
-use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\CoreBundle\Form\Type\DatePickerType;
 
 class CargaHorariaAdmin extends BaseAdmin
 {
+    /**
+     * Configuração do datagrid
+     * @var array
+     */
     protected $datagridValues = [
         '_page' => 1,
         '_sort_order' => 'ASC',
@@ -30,7 +26,6 @@ class CargaHorariaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
-     *
      * @return void
      */
     protected function configureShowField(ShowMapper $showMapper)
@@ -48,7 +43,6 @@ class CargaHorariaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     *
      * @return void
      */
     protected function configureFormFields(FormMapper $formMapper)
@@ -71,7 +65,6 @@ class CargaHorariaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
-     *
      * @return void
      */
     protected function configureListFields(ListMapper $listMapper)
@@ -93,6 +86,11 @@ class CargaHorariaAdmin extends BaseAdmin
         ;
     }
 
+    /**
+     * To string
+     * @param $object
+     * @return string
+     */
     public function toString($object)
     {
         return $object->getTurma()->getCurso()->getNome() . self::SEPARADOR .
@@ -103,7 +101,6 @@ class CargaHorariaAdmin extends BaseAdmin
 
     /**
      * @param \Sonata\AdminBundle\Datagrid\DatagridMapper $datagridMapper
-     *
      * @return void
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -120,6 +117,11 @@ class CargaHorariaAdmin extends BaseAdmin
         ;
     }
 
+    /**
+     * Não permite a exclusão caso já exista aula cadastrada na carga horária
+     * @param $object
+     * @throws \Exception
+     */
     public function preRemove($object)
     {
         $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Aula::class);
