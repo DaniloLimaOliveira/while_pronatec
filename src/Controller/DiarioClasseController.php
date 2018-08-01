@@ -180,8 +180,6 @@ class DiarioClasseController extends BaseController
      */
     public function createAction()
     {
-        $mensagem = $this->getRequest()->get('mensagem');
-
         $filtro = array('status' => StatusTurma::EM_ANDAMENTO);
         $usuario = $this->getUser();
 
@@ -193,7 +191,7 @@ class DiarioClasseController extends BaseController
 
         $cargaHorarias = $this->repositoryCargaHoraria()->findBy($filtro);
 
-        return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseCreate.html.twig', ['Model' => $cargaHorarias, 'Mensagem' => $mensagem]);
+        return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseCreate.html.twig', ['Model' => $cargaHorarias]);
     }
 
     /**
@@ -249,58 +247,75 @@ class DiarioClasseController extends BaseController
      * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function saveAction(){
-        $response = null;
-        $request = $this->getRequest();
-        $idCargaHoraria = $request->get('id');
-        $data = Util::stringToDate($request->get('data'));
-        $cargaHoraria = $this->consultarCargaHoraria($idCargaHoraria);
-        $aula = $this->repositoryAula()->findOneBy(['cargaHoraria' => $cargaHoraria, 'data' => $data]);
+        $aula = null;
+        $cargaHoraria = null;
 
-        if($aula == null)
+        try
         {
-            $aula = new Aula();
+            $response = null;
+            $request = $this->getRequest();
+            $idCargaHoraria = $request->get('id');
+            $data = Util::stringToDate($request->get('data'));
+            $cargaHoraria = $this->consultarCargaHoraria($idCargaHoraria);
+            $aula = $this->repositoryAula()->findOneBy(['cargaHoraria' => $cargaHoraria, 'data' => $data]);
+
+            if($aula == null)
+            {
+                $aula = new Aula();
+            }
+
+            $aula->setData($data);
+            $aula->setConteudoMinistrado(trim($request->get('conteudoMinistrado')));
+            $aula->setQuantidadeHoras(str_replace(',','.',$request->get('quantidadeHoras')));
+            $aula->setTipoAula($request->get('tipoAula'));
+            $aula->setCargaHoraria($cargaHoraria);
+            $aula->setFrequencias($this->carregarFrequencias($request, $aula));
+
+            if(!is_numeric($aula->getQuantidadeHoras()))
+            {
+                throw new \LogicException("Campo quantidade de horas inválido");
+            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($aula);
+            $entityManager->flush();
+
+            $this->setFlashBagSuccessMessage('Aula registrada com sucesso!');
+
+            if($request->get('btn_update_and_edit') != null)
+            {
+                $aula = $this->getOrCreateAula($idCargaHoraria, $data);
+
+                $response =  $this->renderWithExtraParams('admin/diarioClasse/diarioClasseRegister.html.twig', [
+                    'Model' => $cargaHoraria,
+                    'TiposAula' => TipoAula::getTiposAula(),
+                    'Aula' => $aula
+                ]);
+            }
+            elseif($request->get('btn_update_and_list') != null)
+            {
+                $response = $this->redirectToRoute('diarioClasse_create');
+            }
+            else//btn_create_and_create
+            {
+                $response = $this->renderWithExtraParams('admin/diarioClasse/diarioClasseRegister.html.twig',
+                    ['Model' => $cargaHoraria]);
+            }
+
+            return $response;
         }
-
-        $aula->setData($data);
-        $aula->setConteudoMinistrado(trim($request->get('conteudoMinistrado')));
-        $aula->setQuantidadeHoras(str_replace(',','.',$request->get('quantidadeHoras')));
-        $aula->setTipoAula($request->get('tipoAula'));
-        $aula->setCargaHoraria($cargaHoraria);
-        $aula->setFrequencias($this->carregarFrequencias($request, $aula));
-
-        if(!is_numeric($aula->getQuantidadeHoras()))
+        catch (\LogicException $ex)
         {
-            throw new \LogicException("Campo quantidade de horas inválido");
+            $this->setFlashBagErrorMessage($ex->getMessage());
+
+            return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseRegister.html.twig',
+                [
+                    'Model' => $cargaHoraria,
+                    'TiposAula' => TipoAula::getTiposAula(),
+                    'Aula' => $aula
+                ]
+            );
         }
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($aula);
-        $entityManager->flush();
-
-        $mensagem = 'Aula registrada com sucesso!';
-
-        if($request->get('btn_update_and_edit') != null)
-        {
-            $aula = $this->getOrCreateAula($idCargaHoraria, $data);
-
-            $response =  $this->renderWithExtraParams('admin/diarioClasse/diarioClasseRegister.html.twig', [
-                'Model' => $cargaHoraria,
-                'TiposAula' => TipoAula::getTiposAula(),
-                'Aula' => $aula,
-                'Mensagem' => $mensagem
-            ]);
-        }
-        elseif($request->get('btn_update_and_list') != null)
-        {
-            $response = $this->redirectToRoute('diarioClasse_create',['mensagem' => $mensagem]);
-        }
-        else//btn_create_and_create
-        {
-            $response = $this->renderWithExtraParams('admin/diarioClasse/diarioClasseRegister.html.twig',
-                ['Model' => $cargaHoraria, 'Mensagem' => $mensagem]);
-        }
-
-        return $response;
     }
 
     /**
@@ -324,7 +339,9 @@ class DiarioClasseController extends BaseController
 
             return $this->jsonResponseSucess($view);
 
-        }catch (\Exception $ex) {
+        }
+        catch (\Exception $ex)
+        {
             return $this->jsonResponseError($ex->getMessage());
         }
     }

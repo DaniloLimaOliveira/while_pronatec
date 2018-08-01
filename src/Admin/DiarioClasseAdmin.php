@@ -8,6 +8,8 @@ class DiarioClasseAdmin extends BaseAdmin
 {
     protected $baseRoutePattern = 'diarioClasse';
     protected $baseRouteName = 'diarioClasse';
+    protected $classnameLabel = 'Diário de classe';
+
 
     protected function configureRoutes(RouteCollection $collection)
     {

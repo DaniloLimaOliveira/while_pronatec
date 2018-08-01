@@ -30,6 +30,7 @@
         <div class="alert alert-error alert-dismissable" style="display:none" id="div_mensagem">
             <span id="mensagem"></span>
         </div>
+        {% include '@SonataCore/FlashMessage/render.html.twig' %}
         <div class="sonata-ba-form">
             <form role="form" action="/admin/diarioClasse/save" method="POST">
                 <input type="hidden" id='id' name="id" value="{{ Model.getId() }}">
@@ -79,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="botoes" class="sonata-ba-form-actions well well-small form-actions" {{ (Aula is defined) ? '' : 'style="visibility:hidden' }}">
+                <div id="botoes" class="sonata-ba-form-actions well well-small form-actions" {{ (Aula is defined) ? '' : 'style="visibility:hidden"' }}>
                     <button type="submit" class="btn btn-success" name="btn_update_and_edit" value="1">  <i class="fa fa-save" aria-hidden="true"></i> Gravar e manter</button>
                     <button type="submit" class="btn btn-success" name="btn_update_and_list" value="2">  <i class="fa fa-save"></i> <i class="fa fa-list" aria-hidden="true"></i> Gravar e sair</button>
                     <button type="submit" class="btn btn-success" name="btn_create_and_create" value="3"><i class="fa fa-plus-circle" aria-hidden="true"></i> Gravar e adicionar outra aula</button>
@@ -121,12 +122,6 @@
         });
 
         $(function() {
-
-            var mensagem = '{{ (Mensagem is defined) ? Mensagem : '' }}';
-            if(mensagem != ''){
-                //$("#data").attr('readonly', 'readonly');
-                exibirMensagemSucesso(mensagem);
-            }
 
             $("#btn_ok").click(function() {
                 if($('#data')[0].checkValidity())

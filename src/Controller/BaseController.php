@@ -71,4 +71,9 @@ class BaseController extends CRUDController
     {
         $this->getRequest()->getSession()->getFlashBag()->add("error", $message);
     }
+
+    public function setFlashBagSuccessMessage($message)
+    {
+        $this->getRequest()->getSession()->getFlashBag()->add("success", $message);
+    }
 }
