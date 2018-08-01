@@ -6,7 +6,6 @@ use App\Entity\Aula;
 use App\Entity\CargaHoraria;
 use App\Entity\Frequencia;
 use App\Entity\FuncaoColaborador;
-use App\Entity\Matricula;
 use App\Entity\StatusMatricula;
 use App\Entity\StatusTurma;
 use App\Entity\TipoAula;
@@ -17,42 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DiarioClasseController extends BaseController
 {
-    /**
-     * GET Repositório
-     * @return \Doctrine\Common\Persistence\ObjectRepository
-     */
-    public function repositoryCargaHoraria()
-    {
-        return $this->getDoctrine()->getRepository(CargaHoraria::class);
-    }
-
-    /**
-     * GET Repositório
-     * @return \Doctrine\Common\Persistence\ObjectRepository
-     */
-    public function repositoryFrequencia()
-    {
-        return $this->getDoctrine()->getRepository(Frequencia::class);
-    }
-
-    /**
-     * GET Repositório
-     * @return \Doctrine\Common\Persistence\ObjectRepository
-     */
-    public function repositoryMatricula()
-    {
-        return $this->getDoctrine()->getRepository(Matricula::class);
-    }
-
-    /**
-     * GET Repositório
-     * @return \Doctrine\Common\Persistence\ObjectRepository
-     */
-    public function repositoryAula()
-    {
-        return $this->getDoctrine()->getRepository(Aula::class);
-    }
-
     /**
      * Consulta a Carga Horaria de acordo com o ID
      * @param $id
