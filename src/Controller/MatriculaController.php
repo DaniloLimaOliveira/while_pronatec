@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
+
 use Symfony\Component\HttpFoundation\Request;
 
-class CursoController extends BaseController
+class MatriculaController extends BaseController
 {
     /**
-     * Impede a exclusão caso o curso tenha relacionamento com alguma turma
+     * Impede a exclusão, caso a matrícula tenha registrado alguma frequência
      * @param Request $request
      * @param mixed $object
      * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -16,9 +17,9 @@ class CursoController extends BaseController
     {
         try
         {
-            if($this->repositoryTurma()->exist(['curso' => $object]))
+            if($this->repositoryFrequencia()->exist($object))
             {
-                throw new \Exception("Não é possível realizar a exclusão, pois o curso possui turma(s)!");
+                throw new \Exception("Não é possível realizar a exclusão, pois a matrícula possui frequência!");
             }
         }
         catch (\Exception $ex)
@@ -26,5 +27,6 @@ class CursoController extends BaseController
             $this->setFlashBagErrorMessage($ex->getMessage());
             return $this->redirectTo($object);
         }
+
     }
 }

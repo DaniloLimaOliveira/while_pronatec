@@ -39,7 +39,7 @@ services:
           class: App\Admin\AlunoAdmin
           tags:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Alunos }
-          arguments: [~, App\Entity\Aluno, ~]
+          arguments: [~, App\Entity\Aluno, App\Controller\AlunoController]
 
     pronatec.admin.aula:
           class: App\Admin\AulaAdmin
@@ -51,13 +51,13 @@ services:
               class: App\Admin\CargaHorariaAdmin
               tags:
                 - { name: sonata.admin, manager_type: orm, group: Administração, label: Carga Horária }
-              arguments: [~, App\Entity\CargaHoraria, ~]
+              arguments: [~, App\Entity\CargaHoraria, App\Controller\CargaHorariaController]
 
     pronatec.admin.colaborador:
               class: App\Admin\ColaboradorAdmin
               tags:
                 - { name: sonata.admin, manager_type: orm, group: Administração, label: Colaboradores }
-              arguments: [~, App\Entity\Colaborador, ~]
+              arguments: [~, App\Entity\Colaborador, App\Controller\ColaboradorController]
 
     pronatec.admin.curso:
           class: App\Admin\CursoAdmin
@@ -69,7 +69,7 @@ services:
           class: App\Admin\DisciplinaAdmin
           tags:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Disciplinas }
-          arguments: [~, App\Entity\Disciplina, ~]
+          arguments: [~, App\Entity\Disciplina, App\Controller\DisciplinaController]
 
     pronatec.admin.frequencia:
           class: App\Admin\FrequenciaAdmin
@@ -81,7 +81,7 @@ services:
           class: App\Admin\MatriculaAdmin
           tags:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Matrículas }
-          arguments: [~, App\Entity\Matricula, ~]
+          arguments: [~, App\Entity\Matricula, App\Controller\MatriculaController]
 
     pronatec.admin.regiao:
           class: App\Admin\RegiaoAdmin
@@ -93,7 +93,7 @@ services:
           class: App\Admin\TurmaAdmin
           tags:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Turmas }
-          arguments: [~, App\Entity\Turma, ~]
+          arguments: [~, App\Entity\Turma, App\Controller\TurmaController]
 
     pronatec.admin.diarioClasse:
         class: App\Admin\DiarioClasseAdmin

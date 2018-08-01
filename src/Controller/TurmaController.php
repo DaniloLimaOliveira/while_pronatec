@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class CursoController extends BaseController
+class TurmaController extends BaseController
 {
     /**
-     * Impede a exclusão caso o curso tenha relacionamento com alguma turma
+     * Impede a exclusão, caso a turma esteja em alguma carga horária
      * @param Request $request
      * @param mixed $object
      * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -16,9 +16,9 @@ class CursoController extends BaseController
     {
         try
         {
-            if($this->repositoryTurma()->exist(['curso' => $object]))
+            if($this->repositoryCargaHoraria()->exist(['turma' => $object]))
             {
-                throw new \Exception("Não é possível realizar a exclusão, pois o curso possui turma(s)!");
+                throw new \Exception("Não é possível realizar a exclusão, pois a turma possui carga horária!");
             }
         }
         catch (\Exception $ex)
