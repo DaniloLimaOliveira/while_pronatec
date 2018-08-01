@@ -126,19 +126,4 @@ class AlunoAdmin extends BaseAdmin
             ->add('nome')
         ;
     }
-
-    /**
-     * Impede a exclusão caso o aluno já esteja matriculado
-     * @param $object
-     * @throws \Exception
-     */
-    public function preRemove($object)
-    {
-        $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Matricula::class);
-
-        if($repository->exist($object))
-        {
-            throw new \Exception("Não foi possível deletar, pois o aluno possui matrícula!");
-        }
-    }
 }

@@ -104,19 +104,4 @@ class TurmaAdmin extends BaseAdmin
             ->add('nome')
         ;
     }
-
-    /**
-     * Impede a exclusão, caso a turma esteja em alguma carga horária
-     * @param object $object
-     * @throws \Exception
-     */
-    public function preRemove($object)
-    {
-        $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(CargaHoraria::class);
-
-        if($repository->exist(['turma' => $object]))
-        {
-            throw new \Exception("Não foi possível deletar, pois a turma possui carga horária!");
-        }
-    }
 }

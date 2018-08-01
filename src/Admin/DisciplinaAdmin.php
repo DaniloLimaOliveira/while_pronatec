@@ -80,19 +80,4 @@ class DisciplinaAdmin extends BaseAdmin
             ->add('nome')
         ;
     }
-
-    /**
-     * Impede a exclusão caso a disciplina esteja em alguma carga horária
-     * @param object $object
-     * @throws \Exception
-     */
-    public function preRemove($object)
-    {
-        $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(CargaHoraria::class);
-
-        if($repository->exist(['disciplina' => $object]))
-        {
-            throw new \Exception("Não foi possível deletar, pois a disciplina possui carga horária!");
-        }
-    }
 }

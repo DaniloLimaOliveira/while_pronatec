@@ -118,7 +118,7 @@ class CargaHorariaAdmin extends BaseAdmin
     }
 
     /**
-     * Não permite a exclusão caso já exista aula cadastrada na carga horária
+     * Não permite a exclusão, caso exista aula cadastrada na carga horária
      * @param $object
      * @throws \Exception
      */

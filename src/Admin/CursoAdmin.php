@@ -80,19 +80,4 @@ class CursoAdmin extends BaseAdmin
             ->add('nome')
         ;
     }
-
-    /**
-     * Impede a exclusão caso o curso tenha relacionamento com alguma turma
-     * @param $object
-     * @throws \Exception
-     */
-    public function preRemove($object)
-    {
-        $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Turma::class);
-
-        if($repository->exist(['curso' => $object]))
-        {
-            throw new \Exception("Não foi possível deletar, pois o curso possui turma(s)!");
-        }
-    }
 }

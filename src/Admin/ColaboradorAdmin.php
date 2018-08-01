@@ -136,19 +136,4 @@ class ColaboradorAdmin extends BaseAdmin
             ->add('nome')
         ;
     }
-
-    /**
-     * Impede a exclusão caso o colaborador tenha relacionamento com a carga horária
-     * @param $object
-     * @throws \Exception
-     */
-    public function preRemove($object)
-    {
-        $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(CargaHoraria::class);
-
-        if($repository->exist(['colaborador' => $object]))
-        {
-            throw new \Exception("Não foi possível deletar, pois o colaborador possui carga horária!");
-        }
-    }
 }
