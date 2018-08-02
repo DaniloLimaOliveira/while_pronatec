@@ -148,6 +148,7 @@ class FrequenciaAdmin extends BaseAdmin
                 'aula.cargaHoraria.turma.nome',
                 'aula.cargaHoraria.turma.turno',
                 'aula.cargaHoraria.disciplina.nome',
+                'CPF' => 'matricula.aluno.cpf',
                 'matricula.aluno.nome',
                 'Data' => 'aula.getDataFormatada',
                 'Horas'=>'aula.quantidadeHoras',

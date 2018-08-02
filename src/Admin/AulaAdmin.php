@@ -154,10 +154,11 @@ class AulaAdmin extends BaseAdmin
                 'cargaHoraria.turma.nome',
                 'cargaHoraria.turma.turno',
                 'cargaHoraria.disciplina.nome',
+                'CPF' => 'cargaHoraria.colaborador.cpf',
                 'cargaHoraria.colaborador.nome',
                 'Data' => 'getDataFormatada',
                 'Horas'=>'quantidadeHoras',
-                'Tipo' => 'tipoAula',
+                'Tipo' => 'tipoAula'
         ];
     }
 

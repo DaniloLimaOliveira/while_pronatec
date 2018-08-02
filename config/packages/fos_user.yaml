@@ -3,13 +3,17 @@ fos_user:
     firewall_name:  main
     user_class:     App\Application\Sonata\UserBundle\Entity\User
 
-
     group:
         group_class:   App\Application\Sonata\UserBundle\Entity\Group
         group_manager: sonata.user.orm.group_manager # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
 
     service:
         user_manager: sonata.user.orm.user_manager
+        mailer: fos_user.mailer.twig_swift
+
+    resetting:
+        email:
+            template: email\password_resetting.email.twig
 
     from_email:
         address: '%env(resolve:MAIL_FROM)%'
