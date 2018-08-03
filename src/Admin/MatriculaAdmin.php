@@ -46,7 +46,7 @@ class MatriculaAdmin extends BaseAdmin
         $formMapper
             ->with('Geral')
                 ->add('turma', ModelListType::class, array('btn_add'=>false, 'btn_edit'=>false, 'btn_delete'=>false))
-                ->add('aluno', ModelListType::class, array('btn_add'=>false, 'btn_edit'=>false, 'btn_delete'=>false))
+                ->add('aluno', ModelListType::class, array('btn_add'=>true, 'btn_edit'=>false, 'btn_delete'=>false))
                 ->add('status', ChoiceFieldMaskType::class, [
                     'choices' => StatusMatricula::getStatus(),
                     'placeholder' => 'Selecione o status',

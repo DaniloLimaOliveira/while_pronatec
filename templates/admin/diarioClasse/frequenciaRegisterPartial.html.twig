@@ -1,36 +1,36 @@
 <div class="box-body table-responsive no-padding">
-    <table class="table table-bordered table-striped sonata-ba-list">
+    <table class="table table-bordered table-striped sonata-ba-list" style="word-wrap: break-word">
         <thead>
-        <tr class="sonata-ba-list-field-header">
-            <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc">
-                Aluno
-            </th>
-            <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc">
-                Presente
-            </th>
-            <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc">
-                Falta
-            </th>
-            <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc">
-                Falta Justificada
-            </th>
-        </tr>
+            <tr class="sonata-ba-list-field-header row">
+                <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc col-6 col-sm-6">
+                    Aluno
+                </th>
+                <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc col-2 col-sm-2">
+                    Presente
+                </th>
+                <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc col-2 col-sm-2">
+                    Falta
+                </th>
+                <th class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc col-2 col-sm-2">
+                    Falta Justificada
+                </th>
+            </tr>
         </thead>
 
         <tbody>
         {% if Model is not empty %}
             {% for frequencia in Model %}
-                <tr>
-                    <td class="sonata-ba-list-field sonata-ba-list-field-text" objectId="{{frequencia.getId()}}">
+                <tr class="row">
+                    <td class="sonata-ba-list-field sonata-ba-list-field-text col-6 col-sm-6" objectId="{{frequencia.getId()}}">
                         {{ frequencia.getMatricula().getAluno().getNome() }}
                     </td>
-                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                    <td class="sonata-ba-list-field sonata-ba-list-field-text col-2 col-sm-2">
                         <input type="radio" name="frequencia_{{loop.index}}" value="{{frequencia.getId()}}_{{frequencia.getMatricula().getId()}}_P" {{ (frequencia.getTipoFrequencia() == 'P') ? 'checked' : '' }}>
                     </td>
-                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                    <td class="sonata-ba-list-field sonata-ba-list-field-text col-2 col-sm-2">
                         <input type="radio" name="frequencia_{{loop.index}}" value="{{frequencia.getId()}}_{{frequencia.getMatricula().getId()}}_F" {{ (frequencia.getTipoFrequencia() == 'F') ? 'checked' : '' }}>
                     </td>
-                    <td class="sonata-ba-list-field sonata-ba-list-field-text">
+                    <td class="sonata-ba-list-field sonata-ba-list-field-text col-2 col-sm-2">
                         <input type="radio" name="frequencia_{{loop.index}}" value="{{frequencia.getId()}}_{{frequencia.getMatricula().getId()}}_FJ" {{ (frequencia.getTipoFrequencia() == 'FJ') ? 'checked' : '' }}>
                     </td>
                 </tr>
