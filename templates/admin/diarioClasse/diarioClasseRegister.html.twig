@@ -52,19 +52,22 @@
                                             <label class="control-label required">
                                                 Data
                                             </label>
-                                            <div class="sonata-ba-field sonata-ba-field-standard-natural">
-                                                <input id="data" type="date" name="data" required="required" class="form-control"
-                                                       {{ (Aula is defined) ? 'readonly' : '' }}
-                                                       value="{{ (Aula is defined) ? Aula.getData()|date('Y-m-d') : '' }}"
-                                                       hour="00" minute="00"
-                                                       autofocus>
-                                                <br/>
-                                                <button type="button" class="btn btn-success" name="btn_ok" id="btn_ok">
-                                                    <i class="fa fa-check" aria-hidden="true"></i> OK
-                                                </button>
-                                                <button type="reset" class="btn btn-warning" name="btn_reset" id="btn_reset">
-                                                    <i class="fa fa-refresh" aria-hidden="true"></i> Limpar
-                                                </button>
+                                            <div class="sonata-ba-field sonata-ba-field-standard-natural row">
+                                                <div class="col-md-3">
+                                                    <input id="data" type="date" name="data" required="required" class="form-control"
+                                                           {{ (Aula is defined) ? 'readonly' : '' }}
+                                                           value="{{ (Aula is defined) ? Aula.getData()|date('Y-m-d') : '' }}"
+                                                           hour="00" minute="00"
+                                                           autofocus>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="button" class="btn btn-success" name="btn_ok" id="btn_ok">
+                                                        <i class="fa fa-check" aria-hidden="true"></i> OK
+                                                    </button>
+                                                    <button type="reset" class="btn btn-warning" name="btn_reset" id="btn_reset">
+                                                        <i class="fa fa-refresh" aria-hidden="true"></i> Limpar
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                         <div id="aulaRegisterPartial">
