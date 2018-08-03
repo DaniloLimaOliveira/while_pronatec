@@ -70,8 +70,10 @@ class TurmaAdmin extends BaseAdmin
             ->addIdentifier('curso.nome')
             ->add('nome')
             ->add('getTurnoDescricao', null,['label' => 'Turno'])
-            ->add('getStatusDescricao', null,['label' => 'Status'])
             ->add('polo')
+            ->add('getStatusDescricao', null,['label' => 'Status'])
+            ->add('somarCargaHoraria', null,['label' => 'Horas (Total)'])
+            ->add('somarHorasAulas',null, ['label'=>'Horas (Executada)'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -100,7 +102,8 @@ class TurmaAdmin extends BaseAdmin
     {
         $datagridMapper
             ->add('polo', null, [], null, ['expanded' => false, 'multiple' => true])
-            ->add('status')
+            ->add('curso', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('status','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => StatusTurma::getStatus()])
             ->add('nome')
         ;
     }

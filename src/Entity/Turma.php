@@ -46,6 +46,11 @@ class Turma
     protected $polo;
 
     /**
+     * @ORM\OneToMany(targetEntity="CargaHoraria", mappedBy="turma")
+     */
+    protected $cargaHorarias;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -149,6 +154,52 @@ class Turma
     public function setPolo($polo): void
     {
         $this->polo = $polo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCargaHorarias()
+    {
+        return $this->cargaHorarias;
+    }
+
+    /**
+     * @param mixed $cargaHorarias
+     */
+    public function setCargaHorarias($cargaHorarias): void
+    {
+        $this->cargaHorarias = $cargaHorarias;
+    }
+
+    /**
+     * Soma as horas das carga horarias registradas para turma
+     */
+    public function somarCargaHoraria()
+    {
+        $horas = 0;
+
+        foreach ($this->cargaHorarias as $cargaHoraria)
+        {
+            $horas = $horas + $cargaHoraria->getCargaHoraria();
+        }
+
+        return $horas;
+    }
+
+    /**
+     * Soma as horas das aulas registradas
+     */
+    public function somarHorasAulas()
+    {
+        $horas = 0;
+
+        foreach ($this->cargaHorarias as $cargaHoraria)
+        {
+            $horas = $horas + $cargaHoraria->somarHorasAulas();
+        }
+
+        return $horas;
     }
 
     public function __construct()
