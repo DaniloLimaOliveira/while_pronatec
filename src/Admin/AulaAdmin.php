@@ -161,7 +161,7 @@ class AulaAdmin extends BaseAdmin
                 'Data' => 'getDataFormatada',
                 'Horas'=>'quantidadeHoras',
                 'Tipo' => 'tipoAula',
-                'Conteúdo'=>'conteudoMinistrado',
+                'conteudoMinistrado',
         ];
     }
 

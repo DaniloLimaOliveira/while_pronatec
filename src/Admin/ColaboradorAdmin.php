@@ -103,6 +103,7 @@ class ColaboradorAdmin extends BaseAdmin
         $listMapper
             ->addIdentifier('cpf')
             ->add('nome')
+            ->add('getFuncaoDescricao')
             ->add('telefone')
             ->add('email')
             ->add('_action', 'actions', array(
@@ -132,8 +133,9 @@ class ColaboradorAdmin extends BaseAdmin
     {
         $datagridMapper
             ->add('polo.nome')
-            ->add('cpf')
+            ->add('funcao','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => FuncaoColaborador::getFuncoes()])
             ->add('nome')
+            ->add('cpf')
         ;
     }
 }

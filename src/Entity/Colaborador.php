@@ -31,6 +31,14 @@ class Colaborador extends Pessoa
     }
 
     /**
+     * @return mixed
+     */
+    public function getFuncaoDescricao()
+    {
+        return array_search($this->funcao, FuncaoColaborador::getFuncoes());
+    }
+
+    /**
      * @param mixed $funcao
      */
     public function setFuncao($funcao): void
