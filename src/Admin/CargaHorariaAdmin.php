@@ -31,13 +31,15 @@ class CargaHorariaAdmin extends BaseAdmin
     protected function configureShowField(ShowMapper $showMapper)
     {
         $showMapper
+            ->add('turma.polo.nome')
+            ->add('turma.polo.nome')
             ->add('turma.curso.nome')
             ->add('turma.nome')
             ->add('turma.turno')
             ->add('disciplina.nome')
             ->add('colaborador.nome')
-            ->add('cargaHoraria')
             ->add('status')
+            ->add('cargaHoraria')
         ;
     }
 
@@ -70,13 +72,15 @@ class CargaHorariaAdmin extends BaseAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('turma.curso.nome')
+            ->add('turma.polo.nome')
+            ->add('turma.curso.nome')
             ->add('turma.nome')
             ->add('turma.turno')
             ->add('disciplina.nome')
-            ->add('colaborador.nome')
-            ->add('cargaHoraria')
-            ->add('getStatusDescricao', null,['label' => 'Status'])
+            ->addIdentifier('colaborador.nome')
+            ->add('getStatusDescricao')
+            ->add('cargaHoraria',null, ['label'=>'Horas (Total)'])
+            ->add('somarHorasAulas',null, ['label'=>'Horas (Executada)'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),

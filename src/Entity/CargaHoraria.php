@@ -47,6 +47,11 @@ class CargaHoraria
     protected $status;
 
     /**
+     * @ORM\OneToMany(targetEntity="Aula", mappedBy="cargaHoraria")
+     */
+    protected $aulas;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -145,6 +150,37 @@ class CargaHoraria
     public function getStatusDescricao()
     {
         return array_search($this->status, StatusTurma::getStatus());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAulas()
+    {
+        return $this->aulas;
+    }
+
+    /**
+     * @param mixed $aulas
+     */
+    public function setAulas($aulas): void
+    {
+        $this->aulas = $aulas;
+    }
+
+    /**
+     * Soma as horas das aulas registradas
+     */
+    public function somarHorasAulas()
+    {
+        $horas = 0;
+
+        foreach ($this->aulas as $aula)
+        {
+            $horas = $horas + $aula->getQuantidadeHoras();
+        }
+
+        return $horas;
     }
 
     public function __construct()
