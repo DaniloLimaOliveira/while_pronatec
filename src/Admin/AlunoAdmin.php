@@ -5,6 +5,7 @@ namespace App\Admin;
 use App\Entity\Aluno;
 use App\Entity\Estado;
 use App\Entity\Sexo;
+use App\Util\Util;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -144,6 +145,10 @@ class AlunoAdmin extends BaseAdmin
      */
     public function validate(ErrorElement $errorElement, $object)
     {
+        if(!Util::validaCPF($object->getCpf()))
+        {
+            $errorElement->with('cpf')->addViolation('CPF inválido!');
+        }
 
         $aluno = $this->getRepository()->findOneBy([ 'cpf' => $object->getCpf()]);
 
