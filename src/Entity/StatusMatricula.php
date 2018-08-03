@@ -11,15 +11,17 @@ namespace App\Entity;
 
 class StatusMatricula
 {
-    const ATIVA = 'O';
+    const CURSANDO = 'S';
 
     public static function getStatus()
     {
         return array(
-            'Ativa' => 'O',
+            'Cursando' => 'S',
             'Pendente' => 'P',
             'Cancelada' => 'C',
-            'Encerrada' => 'E'
+            'Concluída' => 'F',
+            'Desistente' => 'D',
+            'Reprovado' => 'R',
         );
     }
 }

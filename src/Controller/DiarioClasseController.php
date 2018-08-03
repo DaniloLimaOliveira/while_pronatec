@@ -100,7 +100,7 @@ class DiarioClasseController extends BaseController
     public function getFrequenciaMatricula($cargaHoraria, $aula = null)
     {
         $matriculas = $this->repositoryMatricula()->findBy(['turma' => $cargaHoraria->getTurma(),
-                                                            'status' => StatusMatricula::ATIVA]
+                                                            'status' => StatusMatricula::CURSANDO]
         );
 
         $frequencias = new \ArrayObject();
