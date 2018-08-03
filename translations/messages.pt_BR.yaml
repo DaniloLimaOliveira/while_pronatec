@@ -62,21 +62,23 @@ Aula Quantidade Horas: Horas
 Frequencia Create: Cadastro de Frequência
 Quantidade Horas: Horas
 Tipo Aula: Tipo
-Regiao Nome: Região
-Turma Regiao Nome: Região
-Carga Horaria Turma Regiao Nome: Região
-Aula Carga Horaria Turma Regiao Nome: Região
-Carga Horaria Turma Regiao: Região
+Polo Nome: Polo
+Turma Polo Nome: Polo
+Carga Horaria Turma Polo Nome: Polo
+Aula Carga Horaria Turma Polo Nome: Polo
+Carga Horaria Turma Polo: Polo
 Carga Horaria Turma Curso: Curso
 Carga Horaria Disciplina: Disciplina
 Carga Horaria Colaborador: Colaborador
-Turma Regiao: Região
+Turma Polo: Polo
 Turma Curso: Curso
-Aula Carga Horaria Turma Regiao: Região
+Aula Carga Horaria Turma Polo: Polo
 Aula Carga Horaria Turma Curso: Curso
 Aula Carga Horaria Disciplina: Disciplina
 Aula Carga Horaria Colaborador: Colaborador
 Matricula Aluno: Aluno
 Aula Tipo Aula: Tipo aula
-Regiao: Região
+Polo: Polo
 Admin: While
+Polo List: Listagem de Polo
+Polo Create: Cadastro de Polo

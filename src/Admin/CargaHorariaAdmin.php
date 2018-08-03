@@ -106,7 +106,7 @@ class CargaHorariaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('turma.regiao', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('turma.polo', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('disciplina', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('colaborador', null, [], null, ['expanded' => false, 'multiple' => true])

@@ -67,7 +67,7 @@ class MatriculaAdmin extends BaseAdmin
             ->add('turma.curso.nome')
             ->add('turma.nome')
             ->add('getStatusDescricao', null,['label' => 'Situação'])
-            ->add('turma.regiao.nome')
+            ->add('turma.polo.nome')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -94,7 +94,7 @@ class MatriculaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('turma.regiao', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('turma.polo', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('aluno', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('status','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => StatusMatricula::getStatus()])
@@ -109,7 +109,7 @@ class MatriculaAdmin extends BaseAdmin
                 'turma.curso.nome',
                 'turma.nome',
                 'Situação' => 'getStatusDescricao',
-                'turma.regiao.nome',
+                'turma.polo.nome',
                 'Aulas' => 'getAulasExport',
                 'Qtd Aulas/Mês' => 'getAulasPorMesExport'
         ];

@@ -123,7 +123,7 @@ class AulaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('cargaHoraria.turma.regiao', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('cargaHoraria.turma.polo', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('cargaHoraria.turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('cargaHoraria.disciplina', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('cargaHoraria.turma.nome')

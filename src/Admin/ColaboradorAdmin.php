@@ -49,7 +49,7 @@ class ColaboradorAdmin extends BaseAdmin
                 'placeholder' => 'Selecione a função',
                 'required' => true
             ])
-            ->add('regiao', ModelType::class, array('btn_add'=>false))
+            ->add('polo', ModelType::class, array('btn_add'=>false))
             ->end()
             ->with('Dados Pessoais')
                 ->add('nome')
@@ -131,7 +131,7 @@ class ColaboradorAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('regiao.nome')
+            ->add('polo.nome')
             ->add('cpf')
             ->add('nome')
         ;

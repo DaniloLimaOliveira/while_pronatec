@@ -83,11 +83,11 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Matrículas }
           arguments: [~, App\Entity\Matricula, App\Controller\MatriculaController]
 
-    pronatec.admin.regiao:
-          class: App\Admin\RegiaoAdmin
+    pronatec.admin.polo:
+          class: App\Admin\PoloAdmin
           tags:
-            - { name: sonata.admin, manager_type: orm, group: Administração, label: Regiões}
-          arguments: [~, App\Entity\Regiao, ~]
+            - { name: sonata.admin, manager_type: orm, group: Administração, label: Polo}
+          arguments: [~, App\Entity\Polo, ~]
 
     pronatec.admin.turma:
           class: App\Admin\TurmaAdmin

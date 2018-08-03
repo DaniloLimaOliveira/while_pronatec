@@ -40,10 +40,10 @@ class Turma
     protected $curso;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Regiao")
+     * @ORM\ManyToOne(targetEntity="Polo")
      * @ORM\JoinColumn()
      */
-    protected $regiao;
+    protected $polo;
 
     /**
      * @return mixed
@@ -138,17 +138,17 @@ class Turma
     /**
      * @return mixed
      */
-    public function getRegiao()
+    public function getPolo()
     {
-        return $this->regiao;
+        return $this->polo;
     }
 
     /**
-     * @param mixed $regiao
+     * @param mixed $polo
      */
-    public function setRegiao($regiao): void
+    public function setPolo($polo): void
     {
-        $this->regiao = $regiao;
+        $this->polo = $polo;
     }
 
     public function __construct()
@@ -157,9 +157,7 @@ class Turma
 
     public function __toString()
     {
-       return (string)$this->nome;
+        return (string)$this->nome;
     }
-
-
 
 }

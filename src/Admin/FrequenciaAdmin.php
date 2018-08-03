@@ -111,7 +111,7 @@ class FrequenciaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('aula.cargaHoraria.turma.regiao', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('aula.cargaHoraria.turma.polo', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('aula.cargaHoraria.turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('aula.cargaHoraria.disciplina', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('aula.cargaHoraria.colaborador', null, [], null, ['expanded' => false, 'multiple' => true])

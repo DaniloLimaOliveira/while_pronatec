@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class RegiaoAdmin extends BaseAdmin
+class PoloAdmin extends BaseAdmin
 {
     /**
      * Configuração do datagrid

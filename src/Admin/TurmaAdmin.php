@@ -43,7 +43,7 @@ class TurmaAdmin extends BaseAdmin
     {
         $formMapper
             ->with('Geral')
-                ->add('regiao', ModelType::class, array('btn_add'=>false))
+                ->add('polo', ModelType::class, array('btn_add'=>false))
                 ->add('curso', ModelType::class, array('btn_add'=>false))
                 ->add('nome')
                 ->add('turno', ChoiceFieldMaskType::class, [
@@ -71,7 +71,7 @@ class TurmaAdmin extends BaseAdmin
             ->add('nome')
             ->add('getTurnoDescricao', null,['label' => 'Turno'])
             ->add('getStatusDescricao', null,['label' => 'Status'])
-            ->add('regiao')
+            ->add('polo')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -99,7 +99,7 @@ class TurmaAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('regiao', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('polo', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('status')
             ->add('nome')
         ;
