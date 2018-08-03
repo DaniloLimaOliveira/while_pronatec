@@ -2,17 +2,27 @@
 
 namespace App\Admin;
 
+use App\Entity\Aluno;
 use App\Entity\Estado;
-use App\Entity\Matricula;
 use App\Entity\Sexo;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\CoreBundle\Validator\ErrorElement;
 
 class AlunoAdmin extends BaseAdmin
 {
+    /**
+     * Get AulaRepository
+     * @return AulaRepository
+     */
+    public function getRepository()
+    {
+        return $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Aluno::class);
+    }
+
     /**
      * Configuração do datagrid
      * @var array
@@ -126,4 +136,21 @@ class AlunoAdmin extends BaseAdmin
             ->add('nome')
         ;
     }
+
+    /**
+     * Verifica se já existe uma aula cadastrada na data informada
+     * @param ErrorElement $errorElement
+     * @param $object
+     */
+    public function validate(ErrorElement $errorElement, $object)
+    {
+
+        $aluno = $this->getRepository()->findOneBy([ 'cpf' => $object->getCpf()]);
+
+        if($aluno != null && $aluno->getId() != $object->getId())
+        {
+            $errorElement->with('cpf')->addViolation('Já existe um aluno cadastrado com este CPF!');
+        }
+    }
+
 }

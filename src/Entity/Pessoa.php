@@ -25,7 +25,7 @@ class Pessoa
     protected $nome;
 
     /**
-     * @ORM\Column(type="string", length=11)
+     * @ORM\Column(type="string", length=11, unique=true)
      * @Assert\NotBlank()
      * @Assert\Length(min="1", max=11)
      */
