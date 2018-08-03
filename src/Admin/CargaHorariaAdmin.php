@@ -117,18 +117,4 @@ class CargaHorariaAdmin extends BaseAdmin
         ;
     }
 
-    /**
-     * Não permite a exclusão, caso exista aula cadastrada na carga horária
-     * @param $object
-     * @throws \Exception
-     */
-    public function preRemove($object)
-    {
-        $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Aula::class);
-
-        if($repository->exist($object))
-        {
-            throw new \Exception("Não foi possível deletar, pois existe aula(s) cadastrada(s)!");
-        }
-    }
 }

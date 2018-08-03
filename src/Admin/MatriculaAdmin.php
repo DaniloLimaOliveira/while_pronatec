@@ -66,7 +66,7 @@ class MatriculaAdmin extends BaseAdmin
             ->addIdentifier('aluno.nome')
             ->add('turma.curso.nome')
             ->add('turma.nome')
-            ->add('getStatusDescricao', null,['label' => 'Status'])
+            ->add('getStatusDescricao', null,['label' => 'Situação'])
             ->add('turma.regiao.nome')
             ->add('_action', 'actions', array(
                 'actions' => array(
@@ -103,18 +103,16 @@ class MatriculaAdmin extends BaseAdmin
         ;
     }
 
-    /**
-     * Impede a exclusão, caso a matricula tenha registrado alguma frequência
-     * @param object $object
-     * @throws \Exception
-     */
-    public function preRemove($object)
+    public function getExportFields()
     {
-        $repository = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Frequencia::class);
-
-        if($repository->exist($object))
-        {
-            throw new \Exception("Não foi possível deletar, pois a matrícula possui frequência!");
-        }
+        return ['aluno.nome',
+                'turma.curso.nome',
+                'turma.nome',
+                'Situação' => 'getStatusDescricao',
+                'turma.regiao.nome',
+                'Aulas' => 'getAulasExport',
+                'Qtd Aulas/Mês' => 'getAulasPorMesExport'
+        ];
     }
+
 }
