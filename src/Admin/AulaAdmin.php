@@ -93,6 +93,7 @@ class AulaAdmin extends BaseAdmin
             ->add('cargaHoraria.turma.nome')
             ->add('cargaHoraria.turma.turno')
             ->add('cargaHoraria.disciplina.nome')
+            ->add('cargaHoraria.turma.polo')
             ->add('cargaHoraria.colaborador.nome')
             ->add('data','date',array('format' => 'd/m/Y'))
             ->add('quantidadeHoras')
@@ -154,11 +155,13 @@ class AulaAdmin extends BaseAdmin
                 'cargaHoraria.turma.nome',
                 'cargaHoraria.turma.turno',
                 'cargaHoraria.disciplina.nome',
+                'cargaHoraria.turma.polo',
                 'CPF' => 'cargaHoraria.colaborador.cpf',
                 'cargaHoraria.colaborador.nome',
                 'Data' => 'getDataFormatada',
                 'Horas'=>'quantidadeHoras',
-                'Tipo' => 'tipoAula'
+                'Tipo' => 'tipoAula',
+                'Conteúdo'=>'conteudoMinistrado',
         ];
     }
 
