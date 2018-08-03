@@ -30,6 +30,7 @@ class MatriculaAdmin extends BaseAdmin
     protected function configureShowField(ShowMapper $showMapper)
     {
         $showMapper
+            ->add('aluno.cpf')
             ->add('aluno.nome')
             ->add('turma.curso.nome')
             ->add('turma.nome')
@@ -63,7 +64,8 @@ class MatriculaAdmin extends BaseAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('aluno.nome')
+            ->addIdentifier('aluno.cpf')
+            ->add('aluno.nome')
             ->add('turma.curso.nome')
             ->add('turma.nome')
             ->add('getStatusDescricao', null,['label' => 'Situação'])
@@ -84,7 +86,7 @@ class MatriculaAdmin extends BaseAdmin
      */
     public function toString($object)
     {
-        return $object->getAluno()->getNome();
+        return $object->getAluno()->getCpf();
     }
 
     /**
@@ -97,15 +99,17 @@ class MatriculaAdmin extends BaseAdmin
             ->add('turma.polo', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('aluno', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('aluno.cpf')
             ->add('status','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => StatusMatricula::getStatus()])
             ->add('turma.nome')
-
         ;
     }
 
     public function getExportFields()
     {
-        return ['aluno.nome',
+        return [
+                'aluno.cpf',
+                'aluno.nome',
                 'turma.curso.nome',
                 'turma.nome',
                 'Situação' => 'getStatusDescricao',
