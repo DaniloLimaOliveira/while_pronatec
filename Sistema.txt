@@ -1,0 +1,61 @@
+Contexto do usuário de acordo com a região (realizar filtro nos admins)
+Região: no lugar de região, polo.
+Em aulas: Opção de baixar o conteúdo ministrado em aula, colocar Regiao
+Em colaborador: Colocar o cargo na página inicial
+Matricula: Inserir cpf
+Status da matricula: Cancelado, Desistente, em curso, Concluido e reprovado
+Carga horaria executada e Carga horaria total
+Em carga horaria: ter o polo (unidade remota)
+Verificar CPF já cadastrado
+
+Aluno junto com matriculas
+Cursos, Regioes e turma
+Turma tem carga horaria
+Em turma, a somar a carga horaria das disciplinas
+
+Utilizar banco de dados mysql
+Melhorar layout da aplicação de maneira geral (Aula grid)
+verificar formato do texto no excel (utf_8)
+
+Resetar senha - Configurar envio de e-mail, enviando e-mail no assunto
+
+Gerar certificado por profissional com cpf, de acordo com a carga horaria e curso
+Pensar em como simplificar os cadastros básicos (exemplo: matricula e aluno)
+Relacionamento de turma com o apoio
+
+
+----------------------------------------------------------------------------------------------------------
+public function createQuery($context = 'list')
+{
+    $query = parent::createQuery($context);
+    $query->andWhere(
+        $query->expr()->eq($query->getRootAliases()[0] . '.my_field', ':my_param')
+    );
+    $query->setParameter('my_param', 'my_value');
+    return $query;
+}
+
+
+
+------------------------------------------------------------------------------------------------------------------       	
+$user = $this->securityContext->getToken()->getUser();
+throw new AccessDeniedException();
+--------------------------------------------------------------------------------------------------------------------
+Segurança das action customizadas		
+		
+		role_hierarchy:
+			- ROLE_PRONATEC_ADMIN_AULA_SAVE
+			- ROLE_PRONATEC_ADMIN_AULA_LIST_FREQUENCIA
+			- ROLE_PRONATEC_ADMIN_AULA_REGISTER
+		
+        - { path: ^/admin/aula/\d+/register, role: [ROLE_PRONATEC_ADMIN_AULA_REGISTER] }
+
+--------------------------------------------------------------------------------------------------------------------
+
+$formMapper->getFormBuilder()->addEventListener(FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formMapper, $admin)
+            {
+                $form = $event ->getForm();
+                $subject = $admin->getSubject($event->getData());
+            }
+         );
