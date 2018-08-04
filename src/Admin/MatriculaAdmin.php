@@ -2,7 +2,6 @@
 
 namespace App\Admin;
 
-use App\Entity\Frequencia;
 use App\Entity\StatusMatricula;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -46,8 +45,8 @@ class MatriculaAdmin extends BaseAdmin
     {
         $formMapper
             ->with('Geral')
-                ->add('turma', ModelListType::class, array('btn_add'=>false, 'btn_edit'=>false, 'btn_delete'=>false))
-                ->add('aluno', ModelListType::class, array('btn_add'=>true, 'btn_edit'=>false, 'btn_delete'=>false))
+                ->add('turma', ModelListType::class, array('btn_add'=>false, 'btn_delete'=>false))
+                ->add('aluno', ModelListType::class, array('btn_add'=>true, 'btn_delete'=>false))
                 ->add('status', ChoiceFieldMaskType::class, [
                     'choices' => StatusMatricula::getStatus(),
                     'placeholder' => 'Selecione o status',

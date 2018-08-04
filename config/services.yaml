@@ -33,13 +33,18 @@ services:
         alias: 'fos_user.util.token_generator.default'
         public: true
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    #Administração
     pronatec.admin.aluno:
           class: App\Admin\AlunoAdmin
           tags:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Alunos }
           arguments: [~, App\Entity\Aluno, App\Controller\AlunoController]
+
+    pronatec.admin.matricula:
+              class: App\Admin\MatriculaAdmin
+              tags:
+                - { name: sonata.admin, manager_type: orm, group: Administração, label: Alunos - Matrículas }
+              arguments: [~, App\Entity\Matricula, App\Controller\MatriculaController]
 
     pronatec.admin.aula:
           class: App\Admin\AulaAdmin
@@ -47,54 +52,50 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Administração, label: Aulas }
           arguments: [~, App\Entity\Aula, ~]
 
-    pronatec.admin.cagaHoraria:
-              class: App\Admin\CargaHorariaAdmin
+    pronatec.admin.frequencia:
+              class: App\Admin\FrequenciaAdmin
               tags:
-                - { name: sonata.admin, manager_type: orm, group: Administração, label: Carga Horária }
-              arguments: [~, App\Entity\CargaHoraria, App\Controller\CargaHorariaController]
+                - { name: sonata.admin, manager_type: orm, group: Administração, label: Frequências }
+              arguments: [~, App\Entity\Frequencia, ~]
 
-    pronatec.admin.colaborador:
-              class: App\Admin\ColaboradorAdmin
+    #Coordenação
+    pronatec.admin.polo:
+              class: App\Admin\PoloAdmin
               tags:
-                - { name: sonata.admin, manager_type: orm, group: Administração, label: Colaboradores }
-              arguments: [~, App\Entity\Colaborador, App\Controller\ColaboradorController]
+                - { name: sonata.admin, manager_type: orm, group: Coordenação, label: Polos}
+              arguments: [~, App\Entity\Polo, ~]
 
     pronatec.admin.curso:
           class: App\Admin\CursoAdmin
           tags:
-            - { name: sonata.admin, manager_type: orm, group: Administração, label: Cursos }
+            - { name: sonata.admin, manager_type: orm, group: Coordenação, label: Cursos }
           arguments: [~, App\Entity\Curso, App\Controller\CursoController]
 
     pronatec.admin.disciplina:
           class: App\Admin\DisciplinaAdmin
           tags:
-            - { name: sonata.admin, manager_type: orm, group: Administração, label: Disciplinas }
+            - { name: sonata.admin, manager_type: orm, group: Coordenação, label: Disciplinas }
           arguments: [~, App\Entity\Disciplina, App\Controller\DisciplinaController]
-
-    pronatec.admin.frequencia:
-          class: App\Admin\FrequenciaAdmin
-          tags:
-            - { name: sonata.admin, manager_type: orm, group: Administração, label: Frequências }
-          arguments: [~, App\Entity\Frequencia, ~]
-
-    pronatec.admin.matricula:
-          class: App\Admin\MatriculaAdmin
-          tags:
-            - { name: sonata.admin, manager_type: orm, group: Administração, label: Matrículas }
-          arguments: [~, App\Entity\Matricula, App\Controller\MatriculaController]
-
-    pronatec.admin.polo:
-          class: App\Admin\PoloAdmin
-          tags:
-            - { name: sonata.admin, manager_type: orm, group: Administração, label: Polo}
-          arguments: [~, App\Entity\Polo, ~]
 
     pronatec.admin.turma:
           class: App\Admin\TurmaAdmin
           tags:
-            - { name: sonata.admin, manager_type: orm, group: Administração, label: Turmas }
+            - { name: sonata.admin, manager_type: orm, group: Coordenação, label: Turmas }
           arguments: [~, App\Entity\Turma, App\Controller\TurmaController]
 
+    pronatec.admin.colaborador:
+          class: App\Admin\ColaboradorAdmin
+          tags:
+            - { name: sonata.admin, manager_type: orm, group: Coordenação, label: Colaboradores }
+          arguments: [~, App\Entity\Colaborador, App\Controller\ColaboradorController]
+
+    pronatec.admin.cagaHoraria:
+          class: App\Admin\CargaHorariaAdmin
+          tags:
+            - { name: sonata.admin, manager_type: orm, group: Coordenação, label: Carga Horária }
+          arguments: [~, App\Entity\CargaHoraria, App\Controller\CargaHorariaController]
+
+    #Professor
     pronatec.admin.diarioClasse:
         class: App\Admin\DiarioClasseAdmin
         tags:
