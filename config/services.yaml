@@ -37,13 +37,13 @@ services:
     pronatec.admin.aluno:
           class: App\Admin\AlunoAdmin
           tags:
-            - { name: sonata.admin, manager_type: orm, group: Administração, label: Alunos }
+            - { name: sonata.admin, manager_type: orm, group: Administração, label: Alunos, show_in_dashboard: false }
           arguments: [~, App\Entity\Aluno, App\Controller\AlunoController]
 
     pronatec.admin.matricula:
               class: App\Admin\MatriculaAdmin
               tags:
-                - { name: sonata.admin, manager_type: orm, group: Administração, label: Alunos - Matrículas }
+                - { name: sonata.admin, manager_type: orm, group: Administração, label: Matrículas }
               arguments: [~, App\Entity\Matricula, App\Controller\MatriculaController]
 
     pronatec.admin.aula:

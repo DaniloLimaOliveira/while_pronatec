@@ -1,8 +1,6 @@
-Aluno junto com matriculas / Pensar em como simplificar os cadastros básicos (exemplo: matricula e aluno)
-Cursos, Regioes e turma
 Relátorios
 
-
+Rever __toString das Entitys e Admin
 Contexto do usuário de acordo com a região (realizar filtro nos admins)
 Utilizar banco de dados mysql
 Melhorar layout da aplicação de maneira geral (Aula grid)
@@ -10,6 +8,7 @@ verificar formato do texto no excel (utf_8)
 Resetar senha - Configurar envio de e-mail, enviando e-mail no assunto
 Gerar certificado por profissional com cpf, de acordo com a carga horaria e curso
 Relacionamento de turma com o apoio
+
 
 ----------------------------------------------------------------------------------------------------------
 public function createQuery($context = 'list')

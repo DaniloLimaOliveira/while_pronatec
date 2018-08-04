@@ -45,8 +45,8 @@ class MatriculaAdmin extends BaseAdmin
     {
         $formMapper
             ->with('Geral')
-                ->add('turma', ModelListType::class, array('btn_add'=>false, 'btn_delete'=>false))
-                ->add('aluno', ModelListType::class, array('btn_add'=>true, 'btn_delete'=>false))
+                ->add('turma', ModelListType::class, ['btn_add'=>false, 'btn_delete'=>false, 'btn_edit'=>false])
+                ->add('aluno', ModelListType::class, ['btn_add'=>true, 'btn_delete'=>false])
                 ->add('status', ChoiceFieldMaskType::class, [
                     'choices' => StatusMatricula::getStatus(),
                     'placeholder' => 'Selecione o status',
@@ -65,10 +65,10 @@ class MatriculaAdmin extends BaseAdmin
         $listMapper
             ->addIdentifier('aluno.cpf')
             ->add('aluno.nome')
+            ->add('turma.polo.nome')
             ->add('turma.curso.nome')
             ->add('turma.nome')
             ->add('getStatusDescricao', null,['label' => 'Situação'])
-            ->add('turma.polo.nome')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -97,24 +97,47 @@ class MatriculaAdmin extends BaseAdmin
         $datagridMapper
             ->add('turma.polo', null, [], null, ['expanded' => false, 'multiple' => true])
             ->add('turma.curso', null, [], null, ['expanded' => false, 'multiple' => true])
-            ->add('aluno', null, [], null, ['expanded' => false, 'multiple' => true])
-            ->add('aluno.cpf')
             ->add('status','doctrine_orm_string', [],ChoiceFieldMaskType::class, ['choices' => StatusMatricula::getStatus()])
             ->add('turma.nome')
+            ->add('aluno', null, [], null, ['expanded' => false, 'multiple' => true])
+            ->add('aluno.cpf')
         ;
     }
 
     public function getExportFields()
     {
         return [
-                'aluno.cpf',
-                'aluno.nome',
+                'turma.polo.nome',
                 'turma.curso.nome',
                 'turma.nome',
                 'Situação' => 'getStatusDescricao',
-                'turma.polo.nome',
-                'Aulas' => 'getAulasExport',
-                'Qtd Aulas/Mês' => 'getAulasPorMesExport'
+                'aluno.cpf',
+                'aluno.nome',
+                'aluno.cpf',
+                'aluno.nome',
+                'aluno.nome',
+                'aluno.cpf',
+                'aluno.rg',
+                'aluno.orgaoExpedidor',
+                'aluno.dataNascimento',
+                'aluno.sexo',
+                'aluno.nomeMae',
+                'aluno.nomePai',
+                'aluno.naturalidade',
+                'aluno.raca',
+                'aluno.telefone',
+                'aluno.telefoneRecado',
+                'aluno.email',
+                'aluno.banco.nome',
+                'aluno.banco.agencia',
+                'aluno.banco.conta',
+                'aluno.endereco.cep',
+                'aluno.endereco.endereco',
+                'aluno.endereco.bairro',
+                'aluno.endereco.uf',
+                'aluno.endereco.cidade',
+                //'Aulas' => 'getAulasExport',
+                //'Qtd Aulas/Mês' => 'getAulasPorMesExport'
         ];
     }
 
