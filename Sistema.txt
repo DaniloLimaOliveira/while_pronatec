@@ -3,8 +3,6 @@ Cursos, Regioes e turma
 Relátorios
 
 
-
-
 Contexto do usuário de acordo com a região (realizar filtro nos admins)
 Utilizar banco de dados mysql
 Melhorar layout da aplicação de maneira geral (Aula grid)

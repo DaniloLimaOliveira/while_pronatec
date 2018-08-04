@@ -2,7 +2,6 @@
 
 namespace App\Admin;
 
-use App\Entity\CargaHoraria;
 use App\Entity\StatusTurma;
 use App\Entity\TurnoTurma;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -67,10 +66,10 @@ class TurmaAdmin extends BaseAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('curso.nome')
+            ->addIdentifier('polo')
+            ->add('curso.nome')
             ->add('nome')
-            ->add('getTurnoDescricao', null,['label' => 'Turno'])
-            ->add('polo')
+            //->add('getTurnoDescricao', null,['label' => 'Turno'])
             ->add('getStatusDescricao', null,['label' => 'Status'])
             ->add('somarCargaHoraria', null,['label' => 'Horas (Total)'])
             ->add('somarHorasAulas',null, ['label'=>'Horas (Executada)'])
