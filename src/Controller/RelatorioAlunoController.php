@@ -13,6 +13,8 @@ class RelatorioAlunoController extends BaseController
 
     public function exportAction(Request $request)
     {
+        //TODO: Validar os campos
+
         $dataInicio = $request->get('filter_aula__data_value_start');
         $dataFim = $request->get('filter_aula__data_value_end');
 

@@ -1,6 +1,5 @@
-Relátorios
-Matricula - Tela para visualizar os dados dos alunos
-Em aula - colocar totais de presentes, falta e fj
+Relátorios - Financeiro de alunos
+Relátorios - Financeiro de professores
 
 Rever __toString das Entitys e Admin
 Contexto do usuário de acordo com a região (realizar filtro nos admins)
@@ -12,14 +11,6 @@ Gerar certificado por profissional com cpf, de acordo com a carga horaria e curs
 Relacionamento de turma com o apoio
 
 
-
-select f from App\Entity\Frequencia f 
-                                            join App\Entity\Aula a 
-                                            where f.tipoFrequencia  = 'P' and 
-                                                  f.matricula = $idMatricula
-												  
-SELECT DISTINCT o FROM App\Entity\Frequencia o LEFT JOIN o.aula s_aula WHERE s_aula.data >= :aula_data_0 AND s_aula.data <= :aula_data_1 ORDER BY s_aula.data DESC
-
 ----------------------------------------------------------------------------------------------------------
 public function createQuery($context = 'list')
 {
@@ -30,9 +21,6 @@ public function createQuery($context = 'list')
     $query->setParameter('my_param', 'my_value');
     return $query;
 }
-
-
-
 ------------------------------------------------------------------------------------------------------------------       	
 $user = $this->securityContext->getToken()->getUser();
 throw new AccessDeniedException();
