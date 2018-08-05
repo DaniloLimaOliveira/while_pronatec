@@ -199,4 +199,43 @@ class Aula
                 $this->getDataFormatada();
     }
 
+    public function totalPresencas()
+    {
+        $count = 0;
+        foreach ($this->frequencias as $frequencia)
+        {
+            if($frequencia->getTipoFrequencia() == TipoFrequencia::PRESENTE)
+            {
+                $count = $count + 1;
+            }
+        }
+        return $count;
+    }
+
+    public function totalFaltas()
+    {
+        $count = 0;
+        foreach ($this->frequencias as $frequencia)
+        {
+            if($frequencia->getTipoFrequencia() == TipoFrequencia::FALTA)
+            {
+                $count = $count + 1;
+            }
+        }
+        return $count;
+    }
+
+    public function totalFaltasJustificadas()
+    {
+        $count = 0;
+        foreach ($this->frequencias as $frequencia)
+        {
+            if($frequencia->getTipoFrequencia() == TipoFrequencia::FALTA_JUSTIFICADA)
+            {
+                $count = $count + 1;
+            }
+        }
+        return $count;
+    }
+
 }

@@ -72,12 +72,11 @@ class CargaHorariaAdmin extends BaseAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('turma.polo.nome')
+            ->addIdentifier('turma.polo.nome')
             ->add('turma.curso.nome')
             ->add('turma.nome')
-            ->add('turma.turno')
             ->add('disciplina.nome')
-            ->addIdentifier('colaborador.nome')
+            ->add('colaborador.nome')
             ->add('getStatusDescricao')
             ->add('cargaHoraria',null, ['label'=>'Horas (Total)'])
             ->add('somarHorasAulas',null, ['label'=>'Horas (Executada)'])

@@ -1,4 +1,6 @@
 Relátorios
+Matricula - Tela para visualizar os dados dos alunos
+Em aula - colocar totais de presentes, falta e fj
 
 Rever __toString das Entitys e Admin
 Contexto do usuário de acordo com a região (realizar filtro nos admins)
@@ -9,6 +11,14 @@ Resetar senha - Configurar envio de e-mail, enviando e-mail no assunto
 Gerar certificado por profissional com cpf, de acordo com a carga horaria e curso
 Relacionamento de turma com o apoio
 
+
+
+select f from App\Entity\Frequencia f 
+                                            join App\Entity\Aula a 
+                                            where f.tipoFrequencia  = 'P' and 
+                                                  f.matricula = $idMatricula
+												  
+SELECT DISTINCT o FROM App\Entity\Frequencia o LEFT JOIN o.aula s_aula WHERE s_aula.data >= :aula_data_0 AND s_aula.data <= :aula_data_1 ORDER BY s_aula.data DESC
 
 ----------------------------------------------------------------------------------------------------------
 public function createQuery($context = 'list')

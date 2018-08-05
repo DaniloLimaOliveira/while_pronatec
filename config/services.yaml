@@ -101,3 +101,10 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: Professor, label: Diário de classe }
         arguments: [null, null, App\Controller\DiarioClasseController]
+
+    #Relatórios
+    pronatec.admin.relatorioAluno:
+        class: App\Admin\RelatorioAlunoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Relatórios, label: Relatório dos alunos }
+        arguments: [null, null, App\Controller\RelatorioAlunoController]

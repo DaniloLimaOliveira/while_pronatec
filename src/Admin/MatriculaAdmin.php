@@ -64,7 +64,7 @@ class MatriculaAdmin extends BaseAdmin
     {
         $listMapper
             ->addIdentifier('aluno.cpf')
-            ->add('aluno.nome')
+            ->add('aluno')
             ->add('turma.polo.nome')
             ->add('turma.curso.nome')
             ->add('turma.nome')

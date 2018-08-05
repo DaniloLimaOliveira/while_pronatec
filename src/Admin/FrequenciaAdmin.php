@@ -71,10 +71,11 @@ class FrequenciaAdmin extends BaseAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('aula.cargaHoraria.turma.curso.nome')
+            ->addIdentifier('aula.cargaHoraria.turma.polo.nome')
+            ->add('aula.cargaHoraria.turma.curso.nome')
             ->add('aula.cargaHoraria.turma.nome')
-            ->add('aula.cargaHoraria.turma.turno')
             ->add('aula.cargaHoraria.disciplina.nome')
+            ->add('matricula.aluno.cpf')
             ->add('matricula.aluno.nome')
             ->add('aula.data','date',array('format' => 'd/m/Y'))
             ->add('aula.quantidadeHoras')
@@ -144,7 +145,8 @@ class FrequenciaAdmin extends BaseAdmin
      */
     public function getExportFields()
     {
-        return ['aula.cargaHoraria.turma.curso.nome',
+        return ['aula.cargaHoraria.turma.polo.nome',
+                'aula.cargaHoraria.turma.curso.nome',
                 'aula.cargaHoraria.turma.nome',
                 'aula.cargaHoraria.turma.turno',
                 'aula.cargaHoraria.disciplina.nome',

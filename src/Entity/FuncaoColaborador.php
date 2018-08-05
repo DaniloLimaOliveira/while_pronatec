@@ -18,6 +18,7 @@ class FuncaoColaborador
         return array(
             'Professor' => 'P',
             'Apoio Administrativo' => 'A',
+            'Supervisor' => 'S',
             'Coordenador' => 'A'
         );
     }

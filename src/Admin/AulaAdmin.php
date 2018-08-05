@@ -89,15 +89,17 @@ class AulaAdmin extends BaseAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('cargaHoraria.turma.curso.nome')
+            ->addIdentifier('cargaHoraria.turma.polo.nome')
+            ->add('cargaHoraria.turma.curso.nome')
             ->add('cargaHoraria.turma.nome')
-            ->add('cargaHoraria.turma.turno')
             ->add('cargaHoraria.disciplina.nome')
-            ->add('cargaHoraria.turma.polo')
             ->add('cargaHoraria.colaborador.nome')
             ->add('data','date',array('format' => 'd/m/Y'))
             ->add('quantidadeHoras')
             ->add('getTipoAulaDescricao', null,['label' => 'Tipo'])
+            ->add('totalPresencas', null,['label' => 'Total (P)'])
+            ->add('totalFaltas', null,['label' => 'Total (F)'])
+            ->add('totalFaltasJustificadas', null,['label' => 'Total (FJ)'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),
@@ -151,17 +153,20 @@ class AulaAdmin extends BaseAdmin
 
     public function getExportFields()
     {
-        return ['cargaHoraria.turma.curso.nome',
+        return ['cargaHoraria.turma.polo.nome',
+                'cargaHoraria.turma.curso.nome',
                 'cargaHoraria.turma.nome',
                 'cargaHoraria.turma.turno',
                 'cargaHoraria.disciplina.nome',
-                'cargaHoraria.turma.polo',
                 'CPF' => 'cargaHoraria.colaborador.cpf',
                 'cargaHoraria.colaborador.nome',
                 'Data' => 'getDataFormatada',
                 'Horas'=>'quantidadeHoras',
                 'Tipo' => 'tipoAula',
                 'conteudoMinistrado',
+                'Total (P)' => 'totalPresencas',
+                'Total (F)' => 'totalFaltas',
+                'Total (FJ)' => 'totalFaltasJustificadas',
         ];
     }
 
@@ -173,7 +178,7 @@ class AulaAdmin extends BaseAdmin
     public function validate(ErrorElement $errorElement, $object)
     {
         $aula = $this->getRepository()->findOneBy([ 'cargaHoraria' => $object->getCargaHoraria(),
-            'data' => $object->getData()]);
+                                                    'data' => $object->getData()]);
 
         if($aula != null && $aula->getId() != $object->getId())
         {

@@ -12,6 +12,8 @@ namespace App\Entity;
 class TipoFrequencia
 {
     const PRESENTE = 'P';
+    const FALTA = 'F';
+    const FALTA_JUSTIFICADA = 'FJ';
 
     public static function getTipoFrequencia()
     {
