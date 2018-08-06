@@ -28,12 +28,8 @@ class RelatorioAlunoController extends BaseController
 
             $relatorio = $this->repositoryFrequencia()->consultarFrequencias($dataInicio, $dataFim);
 
-            $response = $this->renderWithExtraParams('admin/relatorioAluno/relatorioAlunoList.csv.twig', ['Model' => $relatorio]);
-            $response->headers->set('Content-Type', 'text/csv');
-            $response->headers->set('Content-Disposition', 'attachment; filename="export.csv"');
-            $response->headers->set('encoding', 'UTF-8"');
-
-            return $response;
+            return $this->csvResponse('admin/relatorioAluno/relatorioAlunoList.csv.twig',
+                                        ['Model' => $relatorio], 'financeiro_alunos');
         }
         catch (\Exception $ex)
         {

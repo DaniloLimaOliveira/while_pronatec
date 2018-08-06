@@ -8,6 +8,7 @@ use App\Entity\CargaHoraria;
 use App\Entity\Frequencia;
 use App\Entity\Matricula;
 use App\Entity\Turma;
+use App\Util\Util;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -76,4 +77,31 @@ class BaseController extends CRUDController
     {
         $this->getRequest()->getSession()->getFlashBag()->add("success", $message);
     }
+
+    public function getFileName($nomeRelatório)
+    {
+        $format = 'csv';
+
+        return sprintf(
+            'export_%s_%s.%s',
+            $nomeRelatório,
+            date('Y_m_d_H_i_s', strtotime('now')),
+            $format
+        );
+    }
+
+    public function csvResponse($template, $parametros, $nomeArquivo)
+    {
+        //TODO: Remover caracteres especiais
+
+        $nomeArquivo = $this->getFileName($nomeArquivo);
+
+        $response = $this->renderWithExtraParams($template, $parametros);
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', "attachment; filename='$nomeArquivo'");
+        $response->headers->set('encoding', 'UTF-8"');
+
+        return $response;
+    }
+
 }

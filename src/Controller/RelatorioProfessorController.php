@@ -28,12 +28,8 @@ class RelatorioProfessorController extends BaseController
 
             $relatorio = $this->repositoryAula()->consultarAulas($dataInicio, $dataFim);
 
-            $response = $this->renderWithExtraParams('admin/relatorioProfessor/relatorioProfessorList.csv.twig', ['Model' => $relatorio]);
-            $response->headers->set('Content-Type', 'text/csv');
-            $response->headers->set('Content-Disposition', 'attachment; filename="export.csv"');
-            $response->headers->set('encoding', 'UTF-8"');
-
-            return $response;
+            return $this->csvResponse('admin/relatorioProfessor/relatorioProfessorList.csv.twig',
+                                        ['Model' => $relatorio], 'financeiro_professores');
         }
         catch (\Exception $ex)
         {

@@ -1,4 +1,4 @@
-Relátorios - Financeiro de professores
+Relátorios - Financeiro de professores - Filtros (Polo)
 
 Rever __toString das Entitys e Admin
 Contexto do usuário de acordo com a região (realizar filtro nos admins)
@@ -11,6 +11,7 @@ Relacionamento de turma com o apoio
 Titilo do site no browser
 O aluno só pode pertencer a uma tuma ativa
 Relatório de pagamento de apoio
+Configurar busca do site
 
 
 ----------------------------------------------------------------------------------------------------------
@@ -63,6 +64,18 @@ inner join curso c on c.id=t.curso_id
 inner join polo p on p.id = t.polo_id
 where a.data >= '2018-07-19 00:00:00' and a.data <= '2018-07-26 00:00:00'
 order by al.nome;
+
+
+select  co.cpf as 'cpf', co.nome as 'professor', 
+        co.banco_nome as 'banco', co.banco_agencia as 'agencia', co.banco_conta as 'conta', 
+        count(a.id) as 'aulas', sum(a.quantidade_horas) as 'horas', (sum(a.quantidade_horas) * 50) as 'totalReceber'
+from aula a
+inner join colaborador co on ch.id=a.carga_horaria_id
+inner join carga_horaria ch on ch.id=a.carga_horaria_id and ch.colaborador_id = co.id
+where co.funcao = 'P' and
+      a.data >= '2018-07-19 00:00:00' and a.data <= '2018-07-26 00:00:00'
+group by co.cpf, co.nome, co.banco_nome, co.banco_agencia, co.banco_conta
+order by co.nome;
 
 
 
