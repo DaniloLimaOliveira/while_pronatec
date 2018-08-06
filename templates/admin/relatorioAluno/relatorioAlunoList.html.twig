@@ -17,6 +17,7 @@
     <section class="content">
         <div class="box box-primary">
             <div class="box-body">
+                {% include '@SonataCore/FlashMessage/render.html.twig' %}
                 <form class="sonata-filter-form form-horizontal" action="/admin/relatorioAluno/export" method="GET" role="form">
                     <div class="row">
                         <div class="col-sm-9">
@@ -26,11 +27,11 @@
                                     <div id="filter_aula__data_value">
                                         <div>
                                             <label for="filter_aula__data_value_start">De</label>
-                                            <input type="date" id="filter_aula__data_value_start" name="filter_aula__data_value_start" data-date-format="DD/MM/YYYY" class=" form-control">
+                                            <input type="date" id="filter_aula__data_value_start" name="filter_aula__data_value_start" data-date-format="DD/MM/YYYY" class=" form-control" value="{{ (Model.dataIncio is defined) ? Model.dataIncio: '' }}">
                                         </div>
                                         <div>
                                             <label for="filter_aula__data_value_end">Até</label>
-                                            <input type="date" id="filter_aula__data_value_end" name="filter_aula__data_value_end" data-date-format="DD/MM/YYYY" class=" form-control">
+                                            <input type="date" id="filter_aula__data_value_end" name="filter_aula__data_value_end" data-date-format="DD/MM/YYYY" class=" form-control" value="{{ (Model.dataFim is defined) ? Model.dataFim: '' }}">
                                         </div>
                                     </div>
                                 </div>
@@ -38,7 +39,7 @@
                         </div>
                         <div class="col-sm-3 text-center">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" id="btnGerar" class="btn btn-primary" onblur="setTimeout(function(){$('#btnGerar').removeAttr('disabled');},1500);">
                                     <i class="fa fa-file-excel-o" aria-hidden="true"></i> Gerar relatório
                                 </button>
                             </div>

@@ -46,5 +46,15 @@ class Util
         return true;
     }
 
+    public static function validarDate($date, $format = 'Y-m-d')
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+
+    public static function IsNullOrEmptyString($str)
+    {
+        return (!isset($str) || trim($str) === '');
+    }
 
 }

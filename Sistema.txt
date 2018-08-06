@@ -1,4 +1,4 @@
-Relátorios - Financeiro de alunos
+Relátorios - Financeiro de alunos (validar campo), depois de subimeter não desabilitar o botão
 Relátorios - Financeiro de professores
 
 Rever __toString das Entitys e Admin
