@@ -1,11 +1,10 @@
-Relátorios - Financeiro de professores - Filtros (Polo)
-
+diário de classe - limitar o registro de aulas da data atual até os últimos 5 dias
 Rever __toString das Entitys e Admin
 Contexto do usuário de acordo com a região (realizar filtro nos admins)
 Utilizar banco de dados mysql
 Melhorar layout da aplicação de maneira geral (Aula grid)
-verificar formato do texto no excel (utf_8)
-Resetar senha - Configurar envio de e-mail, enviando e-mail no assunto
+verificar formato do texto no excel (utf_8) - Problema utf8 no excel, tentar tag meta
+Resetar senha - Configurar envio de e-mail, o cordo do e-mail está no assunto
 Gerar certificado por profissional com cpf, de acordo com a carga horaria e curso
 Relacionamento de turma com o apoio
 Titilo do site no browser
