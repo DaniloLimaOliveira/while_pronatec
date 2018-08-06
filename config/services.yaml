@@ -108,3 +108,9 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: Relatórios, label: Financeiros (Alunos) }
         arguments: [null, null, App\Controller\RelatorioAlunoController]
+
+    pronatec.admin.relatorioProfessor:
+            class: App\Admin\RelatorioProfessorAdmin
+            tags:
+                - { name: sonata.admin, manager_type: orm, group: Relatórios, label: Financeiros (Professores) }
+            arguments: [null, null, App\Controller\RelatorioProfessorController]

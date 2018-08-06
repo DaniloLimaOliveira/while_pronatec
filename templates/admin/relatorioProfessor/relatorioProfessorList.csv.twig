@@ -1,0 +1,4 @@
+CPF;Professor;Banco;Agência;Conta;Qtd Aulas;Qtd Horas;Total a receber;
+{% for al in Model %}
+    {{al.cpf}};{{al.professor}};{{al.banco}};{{al.agencia}};{{al.conta}};{{al.aulas}};{{al.horas}};{{al.totalReceber}};
+{% endfor %}
