@@ -175,16 +175,32 @@ class DiarioClasseController extends BaseController
     }
 
     /**
+     * Verifica se o usuário informado é um professor
+     * @param $usuario
+     * @return bool
+     */
+    public function isUsuarioProfessor($usuario)
+    {
+        if( $usuario && $usuario->getColaborador() &&
+            $usuario->getColaborador()->getFuncao() == FuncaoColaborador::PROFESSOR)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Tela de seleção da carga horária para o cadastro de aula
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function createAction()
     {
         $filtro = array('status' => StatusTurma::EM_ANDAMENTO);
+
         $usuario = $this->getUser();
 
-        if( $usuario && $usuario->getColaborador() &&
-            $usuario->getColaborador()->getFuncao() == FuncaoColaborador::PROFESSOR)
+        if($this->isUsuarioProfessor($usuario))
         {
             $filtro['colaborador'] = $usuario->getColaborador();
         }
@@ -243,6 +259,29 @@ class DiarioClasseController extends BaseController
     }
 
     /**
+     * Verifica a permissão para registrar ou alterar uma aula.
+     * @param $data
+     * @return bool
+     */
+    public function permiteRegistrarAula($data)
+    {
+        $diferenca = date_diff(Util::getDataAtual(), $data);
+
+        if($this->isUsuarioProfessor($this->getUser()) && $diferenca->invert == 1 && $diferenca->days > 7)
+        {
+            throw new \RangeException("Não é possível registrar ou alterar aulas com data anterior a 7 dias. Procure a administração!");
+        }
+
+        if($diferenca->invert == 0 && $diferenca->days > 0)
+        {
+            $data = Util::dateToString($data);
+            throw new \RangeException("Não é possível registrar aula com a data $data, pois é maior que a data atual!");
+        }
+
+        return true;
+    }
+
+    /**
      * Registra a aula
      * @return null|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
@@ -258,6 +297,8 @@ class DiarioClasseController extends BaseController
             $data = Util::stringToDate($request->get('data'));
             $cargaHoraria = $this->consultarCargaHoraria($idCargaHoraria);
             $aula = $this->repositoryAula()->findOneBy(['cargaHoraria' => $cargaHoraria, 'data' => $data]);
+
+            $this->permiteRegistrarAula($data); //Verifica se é possível registrar a aula
 
             if($aula == null)
             {
@@ -304,10 +345,15 @@ class DiarioClasseController extends BaseController
 
             return $response;
         }
+        catch (\RangeException $ex)
+        {
+            $this->setFlashBagErrorMessage($ex->getMessage());
+            return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseRegister.html.twig',
+                                                ['Model' => $cargaHoraria]);
+        }
         catch (\LogicException $ex)
         {
             $this->setFlashBagErrorMessage($ex->getMessage());
-
             return $this->renderWithExtraParams('admin/diarioClasse/diarioClasseRegister.html.twig',
                 [
                     'Model' => $cargaHoraria,

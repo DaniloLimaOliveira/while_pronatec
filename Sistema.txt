@@ -1,4 +1,3 @@
-diário de classe - limitar o registro de aulas da data atual até os últimos 5 dias
 Rever __toString das Entitys e Admin
 Contexto do usuário de acordo com a região (realizar filtro nos admins)
 Utilizar banco de dados mysql

@@ -20,6 +20,19 @@ class Util
         return $data;
     }
 
+    public static function getDataAtual()
+    {
+        $dataAtual = new \DateTime("now");
+        $dataAtual->setTime(0,0,0);
+
+        return $dataAtual;
+    }
+
+    public static function dateToString(\DateTime $date)
+    {
+        return $date->format('d-m-Y');
+    }
+
     public static function validaCPF($cpf) {
 
         // Extrai somente os números
