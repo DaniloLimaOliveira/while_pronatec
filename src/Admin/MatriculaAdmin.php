@@ -2,6 +2,7 @@
 
 namespace App\Admin;
 
+use App\Entity\Matricula;
 use App\Entity\StatusMatricula;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -9,9 +10,19 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\CoreBundle\Validator\ErrorElement;
 
 class MatriculaAdmin extends BaseAdmin
 {
+    /**
+     * Get AulaRepository
+     * @return AulaRepository
+     */
+    public function getRepository()
+    {
+        return $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Matricula::class);
+    }
+
     /**
      * Configuração do datagrid
      * @var array
@@ -139,6 +150,22 @@ class MatriculaAdmin extends BaseAdmin
                 //'Aulas' => 'getAulasExport',
                 //'Qtd Aulas/Mês' => 'getAulasPorMesExport'
         ];
+    }
+
+    /**
+     * Verifica se já existe uma matricula ativa para o aluno
+     * @param ErrorElement $errorElement
+     * @param $object
+     */
+    public function validate(ErrorElement $errorElement, $object)
+    {
+        $matricula = $this->getRepository()->findOneBy([ 'aluno' => $object->getAluno(),
+                                                         'status' => StatusMatricula::CURSANDO]);
+
+        if($matricula != null && $matricula->getId() != $object->getId())
+        {
+            $errorElement->with('aluno')->addViolation('Existe uma matrícula ativa para o aluno(a) informado(a)!');
+        }
     }
 
 }
