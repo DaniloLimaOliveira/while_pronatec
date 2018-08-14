@@ -1,3 +1,6 @@
+Carga horária - Adicionar coluna com as horas pendêntes
+Aluno - Adicionar campo de observação
+Relatório financeito (aluno) - Adicionar coluna observação do aluno
 Rever __toString das Entitys e Admin
 Contexto do usuário de acordo com a região (realizar filtro nos admins)
 Utilizar banco de dados mysql
@@ -7,9 +10,13 @@ Resetar senha - Configurar envio de e-mail, o cordo do e-mail está no assunto
 Gerar certificado por profissional com cpf, de acordo com a carga horaria e curso
 Relacionamento de turma com o apoio
 Titilo do site no browser
-O aluno só pode pertencer a uma tuma ativa
-Relatório de pagamento de apoio
 Configurar busca do site
+
+
+-----------------------------------------------------------------------------------------------------------
+Para o diário de classe
+{% block title %}{{ 'title_search_results'|trans({'%query%': query}, 'SonataAdminBundle') }}{% endblock %}
+{% block breadcrumb %}{% endblock %}
 
 
 ----------------------------------------------------------------------------------------------------------
