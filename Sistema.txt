@@ -1,16 +1,34 @@
 Carga horária - Adicionar coluna com as horas pendêntes
 Aluno - Adicionar campo de observação
 Relatório financeito (aluno) - Adicionar coluna observação do aluno
-Rever __toString das Entitys e Admin
 Contexto do usuário de acordo com a região (realizar filtro nos admins)
+verificar formato do texto no excel (utf_8) - Problema utf8 no excel
+Rever __toString das Entitys e Admin
 Utilizar banco de dados mysql
-Melhorar layout da aplicação de maneira geral (Aula grid)
-verificar formato do texto no excel (utf_8) - Problema utf8 no excel, tentar tag meta
+Titilo do site no browser
+
 Resetar senha - Configurar envio de e-mail, o cordo do e-mail está no assunto
+Configurar busca do site - Não funciona devido os admins que não possuem entity
+Melhorar layout da aplicação de maneira geral (Aula grid)
 Gerar certificado por profissional com cpf, de acordo com a carga horaria e curso
 Relacionamento de turma com o apoio
-Titilo do site no browser
-Configurar busca do site
+
+
+-----------------------------------------------------------------------------------------------------------
+
+sonata_admin:
+    templates:
+        # other configuration options
+        search:              '@SonataAdmin/Core/search.html.twig'
+        search_result_block: '@SonataAdmin/Block/block_search_result.html.twig'
+
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]
+        sonata.admin.block.search_result:
+            contexts: [admin]
+
 
 
 -----------------------------------------------------------------------------------------------------------
